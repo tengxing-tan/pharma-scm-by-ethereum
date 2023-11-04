@@ -38,3 +38,4 @@ yarn-error.log*
 cache
 artifacts
 
+prisma/migrations/migration_lock.toml

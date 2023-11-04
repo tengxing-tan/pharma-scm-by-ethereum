@@ -12,22 +12,23 @@ export const modules: { name: string; items: Item[] }[] = [
       {
         name: 'Product Catalogue',
         slug: 'product-catalogue',
-        description: 'Create product catalogue to promote pharmaceutical products.'
+        description:
+          'Create product catalogue to promote pharmaceutical products.',
       },
       {
-        name: 'Order',
+        name: 'Register Stakeholder',
+        slug: 'register',
+        description: 'Review and update order status.',
+      },
+      {
+        name: 'Order ',
         slug: 'order',
-        description: 'Review and update order status.'
+        description: 'Manage order.',
       },
       {
         name: 'Shipment',
         slug: 'shipment',
-        description: 'Review and update shipment status.'
-      },
-      {
-        name: 'Payment',
-        slug: 'payment',
-        description: 'Payment details.'
+        description: 'Manage shipment status.',
       },
     ],
   },
@@ -36,10 +37,10 @@ export const modules: { name: string; items: Item[] }[] = [
     items: [
       {
         name: 'Trace Pharmaceutical Products',
-        slug: '',
-        description: 'Trace pharmaceutical produtcs powered by Ethereum'
-      }
-    ]
+        slug: 'trace',
+        description: 'Trace pharmaceutical produtcs powered by Ethereum',
+      },
+    ],
   },
   {
     name: 'More',
@@ -47,9 +48,9 @@ export const modules: { name: string; items: Item[] }[] = [
       {
         name: 'My Profile',
         slug: 'profile',
-        description: 'Review and update profile details.'
-      }
-    ]
+        description: 'Review and update profile details.',
+      },
+    ],
   },
 
   // },
