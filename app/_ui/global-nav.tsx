@@ -1,7 +1,7 @@
 'use client';
 
 import { modules } from 'lib/modules';
-import { NextLogo } from 'ui/next-logo';
+import { NextLogo } from 'app/_ui/next-logo';
 import Link from 'next/link';
 import { useSelectedLayoutSegment } from 'next/navigation';
 import clsx from 'clsx';

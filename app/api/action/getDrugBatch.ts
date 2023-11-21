@@ -3,7 +3,11 @@ const prisma = new PrismaClient()
 
 export async function getDrugBatches() {
     try {
-        const data = await prisma.drugBatch.findMany();
+        const data = await prisma.drugBatch.findMany({
+            include: {
+                drug: true
+            }
+        });
         return data;
     } catch (error) {
         console.error('Error fetching drug batches:', error);

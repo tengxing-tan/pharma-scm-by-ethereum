@@ -1,4 +1,3 @@
-import EtherProvider from "./_components/ether-provider";
 import ProductDescription from "./_components/product-description";
 
 export default function Page() {
@@ -12,8 +11,6 @@ export default function Page() {
                     <h1 className="text-4xl font-bold text-gray-800">
                         Update Shipment Status</h1>
                 </div>
-
-                <EtherProvider />
 
                 {/* body */}
                 <div className="mt-8 grid w-full grid-cols-1 gap-6">

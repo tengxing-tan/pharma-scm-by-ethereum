@@ -55,6 +55,13 @@ model Stakeholder {
   updatedAt DateTime     @updatedAt @map(name: "updated_at")
 }
 
+model admin {
+  id        Int      @id @default(autoincrement())
+  email     String   @unique
+  createdAt DateTime @default(now()) @map(name: "created_at")
+  updatedAt DateTime @updatedAt @map(name: "updated_at")
+}
+
 enum VerifyStatus {
   VERIFIED
   PENDING

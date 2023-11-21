@@ -40,7 +40,7 @@ export default function Page({
     };
 
     return (
-        <div className="max-w-none">
+        <div className="max-w-none p-6">
             <form className="px-4" action="POST">
                 <div className="flex justify-between">
                     <h1 className="text-gray-800 text-3xl font-bold">Create Order</h1>

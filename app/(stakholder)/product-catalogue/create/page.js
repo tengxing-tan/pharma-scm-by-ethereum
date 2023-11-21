@@ -20,7 +20,7 @@ export default function Page({ params, searchParams }) {
     };
 
     return (
-        <div className="max-w-none">
+        <div className="max-w-none p-6">
             <form
                 autoComplete="true"
                 action="https://quest3plus.bpfk.gov.my/pmo2/detail.php"

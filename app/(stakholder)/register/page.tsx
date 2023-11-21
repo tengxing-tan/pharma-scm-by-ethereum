@@ -6,6 +6,7 @@ import { useFormStatus } from 'react-dom';
 import { Listbox, Transition } from '@headlessui/react';
 import detectEthereumProvider from '@metamask/detect-provider';
 import { createStakeholder } from './action';
+import { Heading } from 'app/_ui/heading';
 
 type FormState = {
   name: string;
@@ -70,11 +71,11 @@ export default function Page() {
     <div className="max-w-none px-4">
       <form action={createStakeholder}>
         <div className="space-y-10 border-b border-gray-900/10 pb-12">
-          <div className="flex justify-between">
-            <h1 className="text-4xl font-bold text-gray-800">Register</h1>
-          </div>
+          <Heading heading="Register" />
 
+          {/* form layout */}
           <div className="mt-8 grid w-full grid-cols-1 gap-6">
+            {/* form section: account & email */}
             <div className="w-full max-w-lg">
               <label className="block pb-1 text-sm font-medium text-gray-700">
                 Metamask Account
@@ -83,14 +84,11 @@ export default function Page() {
               <div className="focus-within:ring-primary-500 flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset lg:max-w-md">
                 <input
                   className="block flex-1 border-0 bg-transparent p-2 text-gray-700 placeholder:text-gray-400 focus:ring-0"
-                  type="text"
-                  name="publicKey"
+                  type="text" name="publicKey" required
                   value={
                     wallet.accounts.length > 0 ? String(wallet.accounts[0]) : ''
                   }
-                  onChange={handleForm}
-                  required
-                />
+                  onChange={handleForm} />
                 {hasProvider ? (
                   wallet.accounts.length <= 0 ? (
                     <button
@@ -121,38 +119,26 @@ export default function Page() {
             <div className="w-full max-w-lg">
               <label className="block pb-1 text-sm font-medium text-gray-700">
                 Email
-                <span className="text-rose-500">*</span>
-              </label>
+                <span className="text-rose-500">*</span></label>
               <div className="focus-within:ring-primary-500 flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset lg:max-w-md">
-                <input
-                  className="block flex-1 border-0 bg-transparent p-2 text-gray-900 placeholder:text-gray-400 focus:ring-0"
-                  name="email"
-                  type="email"
-                  autoComplete="email"
-                  value={form.email}
-                  onChange={handleForm}
-                  required
-                />
+                <input className="block flex-1 border-0 bg-transparent p-2 text-gray-900 placeholder:text-gray-400 focus:ring-0"
+                  name="email" type="email" value={form.email} required
+                  onChange={handleForm} />
               </div>
             </div>
 
+            {/* form section company information */}
             <h3 className="mt-12 border-t border-t-gray-300 pt-3 text-xl font-semibold text-gray-700">
-              Company Information
-            </h3>
+              Company Information</h3>
             <div className="w-full max-w-lg">
               <label className="block pb-1 text-sm font-medium text-gray-700">
                 Company name
-                <span className="text-rose-500">*</span>
-              </label>
+                <span className="text-rose-500">*</span></label>
               <div className="focus-within:ring-primary-500 flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset lg:max-w-md">
                 <input
                   className="block flex-1 border-0 bg-transparent p-2 text-gray-900 focus:ring-0"
-                  type="text"
-                  name="name"
-                  value={form.name}
-                  onChange={handleForm}
-                  required
-                />
+                  type="text" name="name" value={form.name} required
+                  onChange={handleForm} />
               </div>
             </div>
 

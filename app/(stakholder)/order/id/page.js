@@ -52,7 +52,7 @@ export default function Page({ params, searchParams }) {
     };
 
     return (
-        <div className="max-w-none">
+        <div className="max-w-none p-6">
             <div className="flex justify-between">
                 <h1 className="text-gray-700 text-xl font-bold">
                     Order {orders.id}

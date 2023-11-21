@@ -1,7 +1,7 @@
 import 'styles/globals.css';
-import { GlobalNav } from 'ui/global-nav';
-// import { AddressBar } from 'ui/address-bar';
-// import Byline from 'ui/byline';
+import { GlobalNav } from 'app/_ui/global-nav';
+// import { AddressBar } from 'app/_ui/address-bar';
+// import Byline from 'app/_ui/byline';
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
