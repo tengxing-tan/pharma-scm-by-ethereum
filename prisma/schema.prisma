@@ -11,21 +11,21 @@ datasource db {
 
 model Drug {
   id                   Int         @id @default(autoincrement())
-  // registrationNo   String       blockchain
+  registrationNo       String      @unique // to get data from smart contract
   name                 String
   activeIngredient     String
   dosageForm           String
-  isAuthentic          Boolean     @default(false)
-  verifiedAt           DateTime?   @map("verified_at")
   consumerMedicineInfo String? // attachment
   drugBatches          DrugBatch[]
+  createdAt            DateTime    @default(now()) @map(name: "created_at")
+  updatedAt            DateTime    @updatedAt @map(name: "updated_at")
 }
 
 model DrugBatch {
   id              Int       @id @default(autoincrement())
   drug            Drug      @relation(fields: [drugId], references: [id])
   drugId          Int
-  batchNo         String // autoincrement but string, e.g. 0000001
+  batchNo         String    @unique // to get data from smart contract
   quantity        Int?
   manufactureDate String // MM/YY
   expiryDate      String // MM/YY
@@ -36,25 +36,29 @@ model DrugBatch {
 model Shipment {
   id          Int            @id @default(autoincrement())
   drugBatches DrugBatch[]
-  // departureTime DateTime
-  // arrivalTime   DateTime
+  trackingNo  String         @unique // to get data from smart contract
   status      ShipmentStatus
 }
 
 model Stakeholder {
-  id         String   @id @default(uuid())
-  name       String
-  phoneNo    String   @unique
-  email      String
-  address    String
-  postcode   String?
-  state      String?
-  country    String
-  role       Role
-  publicKey  String   @unique
-  isVerified Boolean  @default(false)
-  createdAt  DateTime @default(now()) @map(name: "created_at")
-  updatedAt  DateTime @updatedAt @map(name: "updated_at")
+  id        Int          @id @default(autoincrement())
+  name      String       @unique
+  phoneNo   String
+  email     String       @unique // to get data from smart contract
+  address   String
+  postcode  String?
+  state     String?
+  country   String
+  role      Role
+  status    VerifyStatus @default(PENDING)
+  createdAt DateTime     @default(now()) @map(name: "created_at")
+  updatedAt DateTime     @updatedAt @map(name: "updated_at")
+}
+
+enum VerifyStatus {
+  VERIFIED
+  PENDING
+  REJECTED
 }
 
 enum Role {

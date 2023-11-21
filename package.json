@@ -9,7 +9,7 @@
     "test": "yarn prettier:check && yarn lint"
   },
   "prisma": {
-    "seed": "node -r @swc-node/register prisma/seed/*"
+    "seed": "node -r @swc-node/register prisma/seed/index.ts"
   },
   "devDependencies": {
     "@headlessui/react": "1.7.17",
@@ -19,10 +19,10 @@
     "date-fns": "2.29.3",
     "dinero.js": "2.0.0-alpha.8",
     "ethers": "^6.8.1",
-    "hardhat": "^2.19.0",
+    "hardhat": "^2.19.1",
     "ms": "3.0.0-canary.1",
-    "next": "14.0.1",
-    "prisma": "^5.5.2",
+    "next": "14.0.3",
+    "prisma": "^5.6.0",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "server-only": "0.0.1",
@@ -33,7 +33,7 @@
   },
   "dependencies": {
     "@metamask/detect-provider": "^2.0.0",
-    "@prisma/client": "5.5.2",
+    "@prisma/client": "5.6.0",
     "@tailwindcss/forms": "0.5.3",
     "@tailwindcss/typography": "0.5.9",
     "@types/ms": "0.7.31",

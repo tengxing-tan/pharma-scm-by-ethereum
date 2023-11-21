@@ -1,14 +1,14 @@
 'use server';
 
-import { getAllDrugs } from '@/api/drug/getDrug';
-import { SearchBar } from '#/ui/search-bar';
+import { getDrugs } from 'app/api/action/getDrug';
+import { SearchBar } from 'ui/search-bar';
 
 export default async function Page({
   params: { id },
 }: {
   params: { id: string };
 }) {
-  const items = await getAllDrugs();
+  const items = await getDrugs();
 
   return (
     <div className="max-w-5xl">

@@ -135,23 +135,6 @@ export default function Page() {
                 />
               </div>
             </div>
-            <div className="w-full max-w-lg">
-              <label className="block pb-1 text-sm font-medium text-gray-700">
-                Phone no.
-                <span className="text-rose-500">*</span>
-              </label>
-              <div className="focus-within:ring-primary-500 flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset lg:max-w-md">
-                <input
-                  className="block flex-1 border-0 bg-transparent p-2 text-gray-900 placeholder:text-gray-400 focus:ring-0"
-                  name="phoneNo"
-                  type="text"
-                  autoComplete="tel-national"
-                  value={form.phoneNo}
-                  onChange={handleForm}
-                  required
-                />
-              </div>
-            </div>
 
             <h3 className="mt-12 border-t border-t-gray-300 pt-3 text-xl font-semibold text-gray-700">
               Company Information
@@ -167,6 +150,24 @@ export default function Page() {
                   type="text"
                   name="name"
                   value={form.name}
+                  onChange={handleForm}
+                  required
+                />
+              </div>
+            </div>
+
+            <div className="w-full max-w-lg">
+              <label className="block pb-1 text-sm font-medium text-gray-700">
+                Phone no.
+                <span className="text-rose-500">*</span>
+              </label>
+              <div className="focus-within:ring-primary-500 flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset lg:max-w-md">
+                <input
+                  className="block flex-1 border-0 bg-transparent p-2 text-gray-900 placeholder:text-gray-400 focus:ring-0"
+                  name="phoneNo"
+                  type="text"
+                  autoComplete="tel-national"
+                  value={form.phoneNo}
                   onChange={handleForm}
                   required
                 />
@@ -276,10 +277,9 @@ export default function Page() {
                         <Listbox.Option
                           key={index}
                           className={({ active }) =>
-                            `relative cursor-default select-none py-2 pl-10 pr-4 ${
-                              active
-                                ? 'bg-primary-100 text-primary-900'
-                                : 'text-gray-900'
+                            `relative cursor-default select-none py-2 pl-10 pr-4 ${active
+                              ? 'bg-primary-100 text-primary-900'
+                              : 'text-gray-900'
                             }`
                           }
                           value={role.toUpperCase()}
@@ -287,9 +287,8 @@ export default function Page() {
                           {({ selected }) => (
                             <>
                               <span
-                                className={`block truncate ${
-                                  selected ? 'font-medium' : 'font-normal'
-                                }`}
+                                className={`block truncate ${selected ? 'font-medium' : 'font-normal'
+                                  }`}
                               >
                                 {role}
                               </span>

@@ -1,6 +1,7 @@
 'use server';
 
-import prisma from '#/lib/prisma';
+import { PrismaClient } from '@prisma/client'
+const prisma = new PrismaClient()
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
 import { z } from 'zod';
