@@ -19,7 +19,7 @@ export async function shipmentSeeder() {
         for (let i = 1; i <= 30; i++) {
             const shipment = await prisma.shipment.create({
                 data: {
-                    trackingNo: `${i % 100}00${i % 20}`,
+                    trackingNo: `${Math.floor(Math.random() * 10000000000000)}`,
                     status: STATUS[i % 8],
                 },
             });

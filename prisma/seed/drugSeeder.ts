@@ -13,6 +13,7 @@ export async function drugSeeder() {
                     registrationNo: String(IbuprofenProducts[index]['registrationNo']),
                     activeIngredient: 'Ibuprofen',
                     dosageForm: String(dosageForms[index % 8]),
+                    ownerId: index % 30
                 },
             });
         }
@@ -21,18 +22,20 @@ export async function drugSeeder() {
                 data: {
                     name: String(AcetaminophenProducts[index]['name']),
                     registrationNo: String(AcetaminophenProducts[index]['registrationNo']),
-                    activeIngredient: 'Ibuprofen',
+                    activeIngredient: 'Acetaminophen (Paracetamol)',
                     dosageForm: String(dosageForms[index % 8]),
+                    ownerId: index % 30
                 },
             });
         }
-        for (let index = 0; index < 5; index++) {
+        for (let index = 0; index < 9; index++) {
             await prisma.drug.create({
                 data: {
                     name: String(HydrochlorothiazideProducts[index]['name']),
                     registrationNo: String(HydrochlorothiazideProducts[index]['registrationNo']),
-                    activeIngredient: 'Ibuprofen',
+                    activeIngredient: 'Hydrochlorothiazide',
                     dosageForm: String(dosageForms[index % 8]),
+                    ownerId: index % 30
                 },
             });
         }

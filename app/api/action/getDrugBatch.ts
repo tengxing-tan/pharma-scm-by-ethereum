@@ -4,6 +4,9 @@ const prisma = new PrismaClient()
 export async function getDrugBatches() {
     try {
         const data = await prisma.drugBatch.findMany({
+            where: {
+                shipment: null
+            },
             orderBy: {
                 updatedAt: 'desc'
             },
