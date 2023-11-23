@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { Heading } from 'app/_ui/heading';
-import { createDrugBatch } from './action';
+import { createDrugBatch } from '../action';
 
 export default function Page() {
     const [form, setForm] = useState({

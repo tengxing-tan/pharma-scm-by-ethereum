@@ -23,7 +23,7 @@ export default async function Page() {
                     {items && items.map((item) => (
                         <li key={item.id} className="flex items-start py-6">
                             <div className="ml-4 flex flex-1 flex-col">
-                                <Link href="order/id" className="">
+                                <Link href={`order/${item.batchNo}`} className="">
                                     {/* item */}
                                     <div className="flex justify-between text-base font-medium text-gray-900">
                                         <div>
@@ -33,9 +33,9 @@ export default async function Page() {
                                                     {item.batchNo}</span></p>
                                                 <p>Quantity: <span className="text-gray-700">
                                                     {item.quantity}</span></p>
-                                                <p>manufactureDate: <span className="text-gray-700">
+                                                <p>Manufacture Date: <span className="text-gray-700">
                                                     {item.manufactureDate}</span></p>
-                                                <p>expiryDate: <span className="text-gray-700">
+                                                <p>Expiry Date: <span className="text-gray-700">
                                                     {item.expiryDate}</span></p>
 
                                             </div>
