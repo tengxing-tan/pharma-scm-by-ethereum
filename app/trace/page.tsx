@@ -1,5 +1,7 @@
 'use server';
 
+import { Heading } from "app/_ui/heading";
+
 export default async function Page({
   params: { id },
 }: {
@@ -7,45 +9,9 @@ export default async function Page({
 }) {
   return (
     <div className="max-w-5xl p-4 lg:px-6">
-      <div className="mb-4 flex justify-between">
-        <h1 className="pb-3 text-3xl font-medium text-gray-600">
-          Supply Chain Overview
-        </h1>
-      </div>
-      <div className="mb-4 flex h-auto w-full">
-        <div className="h-32 w-32 rounded bg-gray-800/10">
-          <img className="h-auto w-full object-cover object-center" src="" />
-        </div>
-        <div className="items-left flex flex-col px-4">
-          <p className="text-md font-semibold text-gray-800">item.name</p>
-          <p className="pb-1 text-xs text-gray-700">
-            registration no from Blockchain
-            {true ? (
-              <span className="ml-2 inline-flex items-center rounded-md bg-green-50 px-2 py-0.5 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-700/10">
-                Verified
-              </span>
-            ) : (
-              <span className="ml-2 inline-flex items-center rounded-md bg-rose-50 px-2 py-0.5 text-xs font-medium text-rose-700 ring-1 ring-inset ring-rose-700/10">
-                Pending for approved
-              </span>
-            )}
-          </p>
-          <div className="mt-1 text-xs text-gray-700">
-            <p className="mt-1 text-xs text-gray-700">
-              <span className="text-gray-500">Batch no: </span>{' '}
-              <span> item.batchNo</span>
-            </p>
-            <p className="mt-1 text-xs text-gray-700">
-              <span className="text-gray-500">Active ingredient: </span>{' '}
-              <span> item.activeIngredient</span>
-            </p>
-            <p className="mt-1 text-xs text-gray-700">
-              <span className="text-gray-500">Dosage form: </span>{' '}
-              <span> item.dosageForm</span>
-            </p>
-          </div>
-        </div>
-      </div>
+      <Heading heading="Supply Chain Overview" />
+
+
       <div className="flex flex-col items-center justify-center bg-gray-500/5 p-6">
         <h3 className="mb-6 w-full text-left text-xl font-bold text-gray-600">
           Manufacturing and Packaging

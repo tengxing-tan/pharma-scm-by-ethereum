@@ -2,19 +2,18 @@
 
 import { useState } from 'react';
 import { updateStatus } from '../action';
+import { SHIPMENT_STATUS } from 'lib/enum';
 
 export default function Form({
-    drugBatch
+    shipment
 }: {
-    drugBatch: any
+    shipment: any
 }) {
 
-    const batchId = drugBatch?.id
-    const trackingNo = drugBatch?.shipment?.trackingNo
-    const status = drugBatch?.shipment?.status
+    const shipmentId = shipment && shipment.id
+    const status = shipment && shipment.status
 
     const [form, setForm] = useState({
-        trackingNo: '',
         status: '',
     });
 
@@ -24,23 +23,13 @@ export default function Form({
     };
 
     return (
-        <form action={updateStatus}>
-            <div className="space-y-12 border-b border-gray-900/10 pb-12">
+        <form action>
+            {/* <div className="space-y-12 border-b border-gray-900/10 pb-12"> */}
+            <div className="space-y-12">
                 {/* form section */}
                 <div className="mt-8 grid w-full grid-cols-1 gap-6">
-                    <input name="batchId" type="hidden" value={batchId && batchId.toString()} />
+                    <input name="shipmentId" type="hidden" value={shipmentId && shipmentId.toString()} />
                     {/* user input */}
-                    <div className="w-full max-w-sm">
-                        <label className="block pb-1 text-sm font-medium text-gray-700">
-                            Tracking No.
-                            <span className="text-rose-500">*</span></label>
-                        <div className="focus-within:ring-primary-500 flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset lg:max-w-md">
-                            <input className="block flex-1 border-0 bg-transparent p-2 text-gray-900 placeholder:text-gray-400 focus:ring-0"
-                                name="trackingNo" type="text" value={typeof trackingNo !== 'undefined' ? trackingNo : form.trackingNo} required
-                                onChange={handleForm} />
-                        </div>
-                    </div>
-
                     <label className="block w-full max-w-sm text-sm font-medium text-gray-700">
                         Status
                         <span className="text-rose-500">*</span>
@@ -61,20 +50,9 @@ export default function Form({
             <div className="flex justify-start space-x-4 pt-6">
                 <button
                     type="submit" className="bg-primary-500 focus:ring-primary-500 hover:bg-primary-600 rounded-md px-6 py-3 text-sm font-semibold text-white shadow-sm focus:ring-1 focus:ring-inset">
-                    Submit
+                    Update Status
                 </button>
             </div>
         </form >
     );
-}
-
-const SHIPMENT_STATUS = {
-    OUT_FOR_DELIVERY: 'Out for delivery',
-    IN_TRANSIT: 'In transit',
-    ARRIVED_AT_DESTINATION: 'Arrived at destination',
-    DELIVERED: 'Delivered',
-    DELAYED: 'Delayed',
-    HELD_FOR_INSPECTION: 'Held for inspection',
-    RETURNED_OR_REJECTED: 'Returned or rejected',
-    LOST_OR_DAMAGED: 'Lost or damaged',
 }
