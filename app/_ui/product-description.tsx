@@ -4,7 +4,7 @@ export default function ProductDescription({ item }: { item: any }) {
         <div>
             <div className="mb-4 flex h-auto w-full">
                 <div className="items-left flex flex-col">
-                    <p className="text-md font-semibold text-gray-800 capitalize">{item.name.toLowerCase()}</p>
+                    <p className="text-md font-semibold text-gray-800 capitalize pb-2">{item.name.toLowerCase()}</p>
                     <p className="pb-1 text-sm text-gray-700">
                         <span className="font-mono bg-gray-100 px-2 py-px font-medium">{item.registrationNo}</span>
                         {true ? (
@@ -20,11 +20,11 @@ export default function ProductDescription({ item }: { item: any }) {
                     <div className="mt-1 text-sm text-gray-700">
                         <p className="mt-1 text-xs text-gray-700">
                             <span className="text-gray-500">Active ingredient: </span>
-                            <span className="capitalize"> {item.activeIngredient.toLowerCase()}</span>
+                            <span className="text-base capitalize"> {item.activeIngredient.toLowerCase()}</span>
                         </p>
                         <p className="mt-1 text-xs text-gray-700">
                             <span className="text-gray-500">Dosage form: </span>
-                            <span> {item.dosageForm}</span>
+                            <span className="text-base"> {item.dosageForm}</span>
                         </p>
                     </div>
                 </div>

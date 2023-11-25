@@ -1,5 +1,4 @@
-import { PrismaClient } from '@prisma/client'
-const prisma = new PrismaClient()
+import prisma from 'lib/prisma-client'
 
 export async function getDrugBatches() {
     try {
@@ -39,3 +38,24 @@ export async function getDrugBatchByBatchNo(batchNo: string) {
     }
 }
 
+export async function getDrugBatchByDrugId(drugId: number) {
+    try {
+        const data = await prisma.drugBatch.findMany({
+            where: {
+                drugId: drugId
+            },
+            include: {
+                drug: true,
+                shipment: true
+            },
+            orderBy: {
+                createdAt: 'desc',
+            },
+        });
+
+        console.log("Get drug batch by drug id ok!")
+        return data;
+    } catch (error) {
+        console.error('Error fetching drug batch by batch no:', error);
+    }
+}

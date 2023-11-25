@@ -10,6 +10,7 @@ export const SHIPMENT_STATUS = {
 }
 
 export enum STATUS {
+    NONE = 'None',
     OUT_FOR_DELIVERY = 'Out for delivery',
     IN_TRANSIT = 'In transit',
     ARRIVED_AT_DESTINATION = 'Arrived at destination',

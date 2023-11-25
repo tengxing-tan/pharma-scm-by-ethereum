@@ -1,7 +1,5 @@
 import z from 'zod';
-
-import { PrismaClient } from '@prisma/client'
-const prisma = new PrismaClient()
+import prisma from 'lib/prisma-client';
 
 export async function getDrugs() {
   try {
@@ -16,9 +14,10 @@ export async function getDrugById(id: number) {
   try {
     const data = await prisma.drug.findUnique({
       where: {
-        id: 1
+        id: id
       }
     });
+    console.log("Get drug by id ok!")
     return data;
   } catch (error) {
     console.error('Error fetching drug:', error);
@@ -33,36 +32,22 @@ export async function getDrugBySearchKey(type: string, searchKey: string) {
 
   let data = null;
   try {
-    const queryType = validatedData.type;
-    const searchKey = validatedData.searchKey;
+    const searchKey = validatedData.searchKey.toUpperCase().trim();
 
-    if (queryType === 'regNo') {
-      data = await prisma.drug.findMany({
-        where: {
-          registrationNo: {
-            contains: searchKey.toUpperCase()
+    data = await prisma.drug.findMany({
+      where: {
+        OR: [
+          {
+            registrationNo: { contains: searchKey }
+          },
+          {
+            name: { contains: searchKey },
+          }, {
+            activeIngredient: { contains: searchKey }
           }
-        }
-      });
-    }
-    if (queryType === 'productName') {
-      data = await prisma.drug.findMany({
-        where: {
-          name: {
-            contains: searchKey.toUpperCase()
-          }
-        }
-      });
-    }
-    if (queryType === 'ingredient') {
-      data = await prisma.drug.findMany({
-        where: {
-          activeIngredient: {
-            contains: searchKey.toUpperCase()
-          }
-        }
-      });
-    }
+        ]
+      },
+    });
 
     console.log("Trace product ok!")
 
