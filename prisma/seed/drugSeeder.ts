@@ -9,11 +9,11 @@ export async function drugSeeder() {
         for (let index = 0; index < 8; index++) {
             await prisma.drug.create({
                 data: {
-                    name: String(IbuprofenProducts[index]['name']),
+                    name: String(IbuprofenProducts[index]['name']).toUpperCase(),
                     registrationNo: String(IbuprofenProducts[index]['registrationNo']),
-                    activeIngredient: 'Ibuprofen',
+                    activeIngredient: 'IBUPROFEN',
                     dosageForm: String(dosageForms[index % 8]),
-                    ownerId: index % 30
+                    ownerId: 3
                 },
             });
         }
@@ -22,9 +22,9 @@ export async function drugSeeder() {
                 data: {
                     name: String(AcetaminophenProducts[index]['name']),
                     registrationNo: String(AcetaminophenProducts[index]['registrationNo']),
-                    activeIngredient: 'Acetaminophen (Paracetamol)',
+                    activeIngredient: 'ACETAMINOPHEN (PARACETAMOL)',
                     dosageForm: String(dosageForms[index % 8]),
-                    ownerId: index % 30
+                    ownerId: 2
                 },
             });
         }
@@ -33,9 +33,9 @@ export async function drugSeeder() {
                 data: {
                     name: String(HydrochlorothiazideProducts[index]['name']),
                     registrationNo: String(HydrochlorothiazideProducts[index]['registrationNo']),
-                    activeIngredient: 'Hydrochlorothiazide',
+                    activeIngredient: 'HYDROCHLOROTHIAZIDE',
                     dosageForm: String(dosageForms[index % 8]),
-                    ownerId: index % 30
+                    ownerId: 1
                 },
             });
         }

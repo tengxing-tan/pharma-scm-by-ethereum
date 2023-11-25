@@ -1,122 +1,40 @@
 'use server';
 
 import { Heading } from "app/_ui/heading";
+import ProductDescription from "app/_ui/product-description";
+import { getDrugBySearchKey } from "app/api/action/getDrug";
+import Link from "next/link";
 
-export default async function Page({
-  params: { id },
-}: {
-  params: { id: string };
-}) {
+export default async function Page({ searchParams }: { searchParams: { type: string, searchKey: string } }) {
+  const {
+    type,
+    searchKey
+  } = searchParams;
+  const result = await getDrugBySearchKey(type, searchKey);
+  console.log(result)
+
   return (
     <div className="max-w-5xl p-4 lg:px-6">
       <Heading heading="Supply Chain Overview" />
-
-
-      <div className="flex flex-col items-center justify-center bg-gray-500/5 p-6">
-        <h3 className="mb-6 w-full text-left text-xl font-bold text-gray-600">
-          Manufacturing and Packaging
-        </h3>
-        <div className="grid w-full grid-cols-1 sm:grid-cols-5">
-          <p className="text-primary-500 w-full p-2 font-bold sm:col-span-2 sm:pr-12 sm:text-right">
-            *Oct 21, 2020
-          </p>
-          <div className="border-primary-500 border-l-2 px-6 py-4 sm:col-span-3">
-            <p className="pb-2 text-lg font-semibold text-gray-600">
-              *Product name
-              <span className="text-base font-normal"> had registered</span>
-            </p>
-            <p className="text-sm font-medium text-gray-600">
-              Manufactured by:{' '}
-              <span className="text-gray-800">*ABC Sdn Bhd</span>
-            </p>
-            <p className="text-sm font-medium text-gray-600">
-              Location: <span className="text-gray-800">*Malaysia</span>{' '}
-            </p>
-            <p className="text-sm font-medium text-gray-600">
-              Company address:{' '}
-              <span className="text-gray-800">*No 11 Jalan Alor.</span>{' '}
-            </p>
-          </div>
-        </div>
-        <div className="grid w-full grid-cols-1 sm:grid-cols-5">
-          <p className="text-primary-500 w-full p-2 font-bold sm:col-span-2 sm:pr-12 sm:text-right">
-            *Oct 21, 2020
-          </p>
-          <div className="border-primary-500 border-l-2 px-6 py-4 sm:col-span-3">
-            <p className="pb-2 text-lg font-semibold text-gray-600">
-              *Product name
-              <span className="text-base font-normal">
-                {' '}
-                had underwent mixing & encapsulation
-              </span>
-            </p>
-            <p className="text-sm font-medium text-gray-600">
-              Manufactured by:{' '}
-              <span className="text-gray-800">*ABC Sdn Bhd</span>
-            </p>
-            <p className="text-sm font-medium text-gray-600">
-              Location: <span className="text-gray-800">*Malaysia</span>{' '}
-            </p>
-            <p className="text-sm font-medium text-gray-600">
-              Company address:{' '}
-              <span className="text-gray-800">*No 11 Jalan Alor.</span>{' '}
-            </p>
-          </div>
-        </div>
-
-        <h3 className="mb-6 w-full text-left text-xl font-bold text-gray-600">
-          Importer
-        </h3>
-        <div className="grid w-full grid-cols-1 pb-4 sm:grid-cols-5">
-          <p className="w-full p-2 font-bold text-amber-500 sm:col-span-2 sm:pr-12 sm:text-right">
-            *Oct 21, 2020
-          </p>
-          <div className="border-l-2 border-amber-500 p-2 pl-6 sm:col-span-3">
-            <p className="pb-2 text-lg font-semibold text-gray-600">
-              *Product name
-              <span className="text-base font-normal"> had shipped</span>
-            </p>
-            <p className="text-sm font-medium text-gray-600">
-              Shiped by: <span className="text-gray-800">*ABC Sdn Bhd</span>
-            </p>
-            <p className="text-sm font-medium text-gray-600">
-              From:{' '}
-              <span className="text-gray-800">
-                *New York (address), *US(country)
-              </span>{' '}
-            </p>
-            <p className="text-sm font-medium text-gray-600">
-              To: <span className="text-gray-800">*Klang, *Malaysia</span>{' '}
-            </p>
-          </div>
-        </div>
-
-        <h3 className="mb-6 w-full text-left text-xl font-bold text-gray-600">
-          Wholesaler
-        </h3>
-        <div className="grid w-full grid-cols-1 pb-4 sm:grid-cols-5">
-          <p className="w-full p-2 font-bold text-emerald-500 sm:col-span-2 sm:pr-12 sm:text-right">
-            *Oct 21, 2020
-          </p>
-          <div className="border-l-2 border-emerald-500 p-2 pl-6 sm:col-span-3">
-            <p className="pb-2 text-lg font-semibold text-gray-600">
-              *Product name
-              <span className="text-base font-normal"> had stored</span>
-            </p>
-            <p className="text-sm font-medium text-gray-600">
-              Distributed by:{' '}
-              <span className="text-gray-800">*ABC Sdn Bhd</span>
-            </p>
-            <p className="text-sm font-medium text-gray-600">
-              Location: <span className="text-gray-800">*Malaysia</span>{' '}
-            </p>
-            <p className="text-sm font-medium text-gray-600">
-              Warehouse address:{' '}
-              <span className="text-gray-800">*No 11 Jalan Alor.</span>{' '}
-            </p>
-          </div>
-        </div>
+      <div className="pt-4 pb-8 text-gray-700">
+        <p>Searching for "<span className="font-semibold">{searchKey}</span>" ({type}). There are {result !== null && result ? `${result.length} products found.` : 'Query error.'}</p>
       </div>
+      <ul role="list" className="-my-6 divide-y divide-gray-200">
+        {result && result.map((item) => (
+          <Link href={`trace/${item.id}`}>
+            <li key={item.id} className="flex items-center justify-between pt-6">
+              <ProductDescription item={item} />
+
+              {/* arrow icon */}
+              <button type="button" className="font-medium text-indigo-600 hover:text-indigo-500">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-6 h-6">
+                  <path fillRule="evenodd" d="M16.28 11.47a.75.75 0 010 1.06l-7.5 7.5a.75.75 0 01-1.06-1.06L14.69 12 7.72 5.03a.75.75 0 011.06-1.06l7.5 7.5z" clipRule="evenodd" />
+                </svg>
+              </button>
+            </li>
+          </Link>
+        ))}
+      </ul>
     </div>
   );
 }
