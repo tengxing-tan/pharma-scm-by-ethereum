@@ -1,9 +1,20 @@
+'use server'
+
 import z from 'zod';
 import prisma from 'lib/prisma-client';
 
 export async function getDrugs() {
   try {
-    const data = await prisma.drug.findMany();
+    const data = await prisma.drug.findMany({
+      include: {
+        owner: true,
+        manufacturer: {
+          include: {
+            info: true
+          }
+        }
+      }
+    });
     return data;
   } catch (error) {
     console.error('Error fetching drugs:', error);
@@ -15,6 +26,14 @@ export async function getDrugById(id: number) {
     const data = await prisma.drug.findUnique({
       where: {
         id: id
+      },
+      include: {
+        owner: true,
+        manufacturer: {
+          include: {
+            info: true
+          }
+        }
       }
     });
     console.log("Get drug by id ok!")
@@ -47,6 +66,14 @@ export async function getDrugBySearchKey(type: string, searchKey: string) {
           }
         ]
       },
+      include: {
+        owner: true,
+        manufacturer: {
+          include: {
+            info: true
+          }
+        }
+      }
     });
 
     console.log("Trace product ok!")

@@ -10,55 +10,91 @@ datasource db {
 }
 
 model Drug {
-  id                   Int          @id @default(autoincrement())
-  registrationNo       String       @unique // to get data from smart contract
+  id                   Int     @id @default(autoincrement())
+  registrationNo       String  @unique // to get data from smart contract
   name                 String
   activeIngredient     String
   dosageForm           String
   consumerMedicineInfo String? // attachment
-  drugBatches          DrugBatch[]
-  createdAt            DateTime     @default(now()) @map(name: "created_at")
-  updatedAt            DateTime     @updatedAt @map(name: "updated_at")
-  owner                Stakeholder? @relation(fields: [ownerId], references: [id])
   ownerId              Int?
+  manufacturerId       Int?
+
+  owner        Stakeholder?  @relation(fields: [ownerId], references: [id])
+  manufacturer Manufacturer? @relation(fields: [manufacturerId], references: [id])
+  drugBatches  DrugBatch[]
+  createdAt    DateTime      @default(now()) @map(name: "created_at")
+  updatedAt    DateTime      @updatedAt @map(name: "updated_at")
 }
 
 model DrugBatch {
-  id              Int       @id @default(autoincrement())
-  drug            Drug      @relation(fields: [drugId], references: [id])
+  id              Int    @id @default(autoincrement())
   drugId          Int
-  batchNo         String    @unique // to get data from smart contract
+  batchNo         String @unique // to get data from smart contract
   quantity        Int?
   manufactureDate String // MM/YY
   expiryDate      String // MM/YY
-  shipment        Shipment? @relation(fields: [shipmentId], references: [id])
-  shipmentId      Int?
-  createdAt       DateTime  @default(now()) @map(name: "created_at")
-  updatedAt       DateTime  @updatedAt @map(name: "updated_at")
+  wholesalerId    Int?
+  importerId      Int?
+
+  drug       Drug            @relation(fields: [drugId], references: [id])
+  status     ProductStatus[]
+  wholesaler Wholesaler?     @relation(fields: [wholesalerId], references: [id])
+  importer   Importer?       @relation(fields: [importerId], references: [id])
+  createdAt  DateTime        @default(now()) @map(name: "created_at")
 }
 
-model Shipment {
-  id          Int            @id @default(autoincrement())
-  drugBatches DrugBatch[]
-  trackingNo  String         @unique // to get data from smart contract
-  status      ShipmentStatus
-  // updateAt store in smart contract
+model ProductStatus {
+  id          Int     @id @default(autoincrement())
+  drugBatchId Int
+  stage       Role
+  process     Process
+  date        String
+  description String?
+  address     String?
+  country     String?
+
+  DrugBatch DrugBatch @relation(fields: [drugBatchId], references: [id])
+}
+
+model Manufacturer {
+  id            Int         @id @default(autoincrement())
+  stakeholderId Int         @unique
+  info          Stakeholder @relation(fields: [stakeholderId], references: [id])
+  products      Drug[]
+}
+
+model Importer {
+  id            Int         @id @default(autoincrement())
+  stakeholderId Int         @unique
+  info          Stakeholder @relation(fields: [stakeholderId], references: [id])
+  products      DrugBatch[]
+}
+
+model Wholesaler {
+  id            Int         @id @default(autoincrement())
+  stakeholderId Int         @unique
+  info          Stakeholder @relation(fields: [stakeholderId], references: [id])
+  products      DrugBatch[]
 }
 
 model Stakeholder {
-  id        Int          @id @default(autoincrement())
-  name      String       @unique
-  phoneNo   String
-  email     String       @unique // to get data from smart contract
-  address   String
-  postcode  String?
-  state     String?
-  country   String
-  role      Role
-  status    VerifyStatus @default(PENDING)
-  products  Drug[]
-  createdAt DateTime     @default(now()) @map(name: "created_at")
-  updatedAt DateTime     @updatedAt @map(name: "updated_at")
+  id       Int          @id @default(autoincrement())
+  name     String
+  phoneNo  String?
+  email    String       @unique // to get data from smart contract
+  address  String?
+  postcode String?
+  state    String?
+  country  String
+  role     Role
+  status   VerifyStatus @default(PENDING)
+
+  manufacturer Manufacturer?
+  wholesaler   Wholesaler?
+  importer     Importer?
+  products     Drug[]
+  createdAt    DateTime      @default(now()) @map(name: "created_at")
+  updatedAt    DateTime      @updatedAt @map(name: "updated_at")
 }
 
 model admin {
@@ -75,18 +111,21 @@ enum VerifyStatus {
 }
 
 enum Role {
+  SUPPLIER
   MANUFACTURER
   IMPORTER
   WHOLESALER
 }
 
-enum ShipmentStatus {
-  OUT_FOR_DELIVERY
-  IN_TRANSIT
-  ARRIVED_AT_DESTINATION
+enum Process {
+  // manufacturing & packaging
+  UNDERWENT_MIXING_ENCAPSULATION
+  LABELLING_PACKAGING
+  // importer / warehousing
+  READY_TO_SHIP
+  SHIPPED
+  STORE_IN_WAREHOUSE
   DELIVERED
-  DELAYED
-  HELD_FOR_INSPECTION
-  RETURNED_OR_REJECTED
-  LOST_OR_DAMAGED
+  REJECTED
+  RETURNED
 }

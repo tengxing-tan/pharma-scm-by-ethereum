@@ -13,7 +13,8 @@ export async function drugSeeder() {
                     registrationNo: String(IbuprofenProducts[index]['registrationNo']),
                     activeIngredient: 'IBUPROFEN',
                     dosageForm: String(dosageForms[index % 8]),
-                    ownerId: 3
+                    ownerId: 4,
+                    manufacturerId: 1
                 },
             });
         }
@@ -24,7 +25,8 @@ export async function drugSeeder() {
                     registrationNo: String(AcetaminophenProducts[index]['registrationNo']),
                     activeIngredient: 'ACETAMINOPHEN (PARACETAMOL)',
                     dosageForm: String(dosageForms[index % 8]),
-                    ownerId: 2
+                    ownerId: 4,
+                    manufacturerId: 1
                 },
             });
         }
@@ -35,7 +37,8 @@ export async function drugSeeder() {
                     registrationNo: String(HydrochlorothiazideProducts[index]['registrationNo']),
                     activeIngredient: 'HYDROCHLOROTHIAZIDE',
                     dosageForm: String(dosageForms[index % 8]),
-                    ownerId: 1
+                    ownerId: 4,
+                    manufacturerId: 1
                 },
             });
         }

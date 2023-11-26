@@ -3,14 +3,15 @@ import prisma from 'lib/prisma-client'
 export async function getDrugBatches() {
     try {
         const data = await prisma.drugBatch.findMany({
-            where: {
-                shipment: null
-            },
             orderBy: {
-                updatedAt: 'desc'
+                createdAt: 'desc',
             },
             include: {
-                drug: true
+                drug: {
+                    include: {
+                        owner: true
+                    }
+                }
             },
         });
         return data;
@@ -26,12 +27,20 @@ export async function getDrugBatchByBatchNo(batchNo: string) {
                 batchNo: batchNo
             },
             include: {
-                drug: true,
-                shipment: true
+                drug: {
+                    include: {
+                        owner: true,
+                        manufacturer: {
+                            include: {
+                                info: true
+                            }
+                        }
+                    }
+                },
             }
         });
 
-        // console.log("get drug batch by batch no: ", data);
+        console.log("get drug batch by batch no ok!");
         return data;
     } catch (error) {
         console.error('Error fetching drug batch by batch no:', error);
@@ -46,7 +55,7 @@ export async function getDrugBatchByDrugId(drugId: number) {
             },
             include: {
                 drug: true,
-                shipment: true
+                status: true
             },
             orderBy: {
                 createdAt: 'desc',

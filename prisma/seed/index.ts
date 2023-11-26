@@ -3,7 +3,6 @@ const prisma = new PrismaClient()
 
 import { stakeholderSeeder } from './stakeholderSeeder'
 import { drugSeeder } from './drugSeeder'
-import { shipmentSeeder } from './shipmentSeeder'
 import { drugBatchSeeder } from './drugBatchSeeder'
 
 async function main() {
@@ -15,10 +14,6 @@ async function main() {
 
     const drugBatches = await drugBatchSeeder()
     console.log('DrugBatch seeding complete.')
-
-
-    const shipments = await shipmentSeeder()
-    console.log('Shipment seeding complete.')
 }
 main()
     .then(async () => {

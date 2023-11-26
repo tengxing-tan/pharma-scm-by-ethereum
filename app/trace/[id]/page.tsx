@@ -2,7 +2,7 @@ import { Heading } from "app/_ui/heading";
 import ProductDescription from "app/_ui/product-description";
 import { getDrugById } from "app/api/action/getDrug";
 import { getDrugBatchByDrugId } from "app/api/action/getDrugBatch";
-import { STATUS } from "lib/enum";
+import { Process } from "lib/enum";
 import Link from "next/link";
 
 export default async function Page({ params }: { params: { id: string } }) {
@@ -27,10 +27,10 @@ export default async function Page({ params }: { params: { id: string } }) {
                 <ul role="list" className="-my-6 divide-y divide-gray-200">
                     {drugBatches ? drugBatches.map((item) => (
                         <li key={item.id} className="grid grid-cols-3 py-2 text-gray-800">
-                            <Link href={`trace/${item.id}`}>
+                            <Link href={`${item.id}/${item.batchNo}`}>
                                 <p className="font-mono hover:underline">{item.batchNo}</p>
                             </Link>
-                            <p className="text-sm">{STATUS[item.shipment ? item.shipment.status : 'NONE']}</p>
+                            <p className="text-sm">{Process.item.status.name}</p>
                             <p className="text-sm">{item.createdAt.toLocaleDateString()}</p>
                         </li>
                     )) :
