@@ -8,6 +8,8 @@ import { z } from 'zod';
 
 export async function updateDrugBatch(formData: FormData) {
     const batchId = Number(formData.get('batchId'));
+    const batchNo = formData.get('batchNo');
+    let valid = '0'
 
     const scheme = z.object({
         batchNo: z.string().min(1),
@@ -34,10 +36,30 @@ export async function updateDrugBatch(formData: FormData) {
         });
 
         console.log('Done updating drug batch');
-        redirect('/');
+        valid = 'ok'
     } catch (error) {
         console.log('Error: ', error);
     }
+    redirect(`/order/${batchNo}?updated=${valid}`, 'replace');
+}
+
+export async function deleteDrugBatch(batchId: number) {
+    try {
+        await prisma.productStatus.deleteMany({
+            where: {
+                drugBatchId: batchId
+            }
+        })
+        await prisma.drugBatch.delete({
+            where: {
+                id: batchId
+            },
+        });
+        console.log("Delete drug batch ok!")
+    } catch (error) {
+        console.log('Error: ', error);
+    }
+    redirect(`/order`);
 }
 
 export async function createDrugBatch(formData: FormData) {
@@ -78,8 +100,8 @@ export async function createDrugBatch(formData: FormData) {
         });
 
         console.log('Result: ', result);
-        revalidatePath('/');
     } catch (error) {
         console.log('Error: ', error);
     }
+    revalidatePath('/');
 }

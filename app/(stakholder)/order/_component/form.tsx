@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react';
-import { updateDrugBatch } from '../action';
+import { deleteDrugBatch, updateDrugBatch } from '../action';
 import Link from 'next/link';
 
 export default function Form({
@@ -27,6 +27,10 @@ export default function Form({
         const { name, value } = event.target;
         setForm((prevForm) => ({ ...prevForm, [name]: value }));
     };
+
+    const handleRemove = () => {
+        deleteDrugBatch(batchId)
+    }
 
     return (
         <form action={updateDrugBatch}>
@@ -86,6 +90,11 @@ export default function Form({
                 <button
                     type="submit" className="bg-primary-500 focus:ring-primary-500 hover:bg-primary-600 rounded-md px-6 py-3 text-sm font-semibold text-white shadow-sm focus:ring-1 focus:ring-inset">
                     Submit
+                </button>
+                <button
+                    type="button" className="bg-rose-500 focus:ring-rose-500 hover:bg-rose-600 rounded-md px-6 py-3 text-sm font-semibold text-white shadow-sm focus:ring-1 focus:ring-inset"
+                    onClick={handleRemove}>
+                    Remove
                 </button>
                 <Link href="/order">
                     <button
