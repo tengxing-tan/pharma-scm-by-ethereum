@@ -4,6 +4,7 @@ import { getDrugs } from 'app/api/action/getDrug';
 import { SearchBar } from 'app/_ui/search-bar';
 import { Heading } from 'app/_ui/heading';
 import { Badge } from 'app/_ui/badge';
+import Link from 'next/link';
 
 export default async function Page({
   params: { id },
@@ -14,7 +15,12 @@ export default async function Page({
 
   return (
     <div className="max-w-5xl">
-      <Heading heading="Product Catalogue" />
+      <Heading heading="Product Catalogue">
+        <Link href="product-catalogue/create">
+          <button className="whitespace-nowrap bg-indigo-500 text-white font-semibold rounded-lg px-4 py-1 hover:bg-indigo-600 focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+            Create</button>
+        </Link>
+      </Heading>
       <SearchBar />
 
       <div className="mt-8 flex h-full flex-col bg-white py-2">

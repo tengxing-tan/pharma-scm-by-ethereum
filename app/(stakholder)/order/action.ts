@@ -40,62 +40,6 @@ export async function updateDrugBatch(formData: FormData) {
     }
 }
 
-export async function updateStatus(formData: FormData) {
-    const batchId = Number(formData.get('batchId'));
-
-    const schema = z.object({
-        trackingNo: z.string().min(1),
-        status: z.string().min(1),
-    });
-
-    try {
-        const validatedData = schema.parse({
-            trackingNo: formData.get('trackingNo'),
-            status: formData.get('status'),
-        });
-
-        const hasTrackingNo = await prisma.shipment.findUnique({
-            where: {
-                trackingNo: validatedData.trackingNo
-            }
-        });
-
-        if (hasTrackingNo !== null) {
-            await prisma.shipment.update({
-                where: {
-                    trackingNo: validatedData.trackingNo
-                },
-                data: {
-                    status: validatedData.status
-                }
-            });
-        } else {
-            const shipment = await prisma.shipment.create({
-                data: {
-                    trackingNo: validatedData.trackingNo,
-                    status: validatedData.status,
-                }
-            });
-
-            await prisma.shipment.update({
-                where: {
-                    id: shipment.id
-                },
-                data: {
-                    drugBatches: {
-                        connect: [{ id: batchId }]
-                    }
-                }
-            })
-        }
-        console.log('Done updating status');
-        redirect('/');
-
-    } catch (error) {
-        console.log('Error: ', error);
-    }
-}
-
 export async function createDrugBatch(formData: FormData) {
 
 
@@ -105,6 +49,7 @@ export async function createDrugBatch(formData: FormData) {
         manufactureDate: z.string().min(1),
         expiryDate: z.string().min(1),
     });
+    const regNoSchema = z.string().min(5);
 
     try {
         const validatedData = schema.parse({
@@ -114,9 +59,11 @@ export async function createDrugBatch(formData: FormData) {
             expiryDate: formData.get('expiryDate'),
         });
 
+        const registrationNo = regNoSchema.parse(formData.get('registrationNo'))
+
         const drug = await prisma.drug.findUnique({
             where: {
-                registrationNo: formData.get('registrationNo')
+                registrationNo: registrationNo
             }
         })
 

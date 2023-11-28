@@ -30,13 +30,10 @@ export async function getDrugBatchByBatchNo(batchNo: string) {
                 drug: {
                     include: {
                         owner: true,
-                        manufacturer: {
-                            include: {
-                                info: true
-                            }
-                        }
+                        manufacturer: { include: { info: true } }
                     }
                 },
+                status: true,
             }
         });
 
@@ -55,14 +52,13 @@ export async function getDrugBatchByDrugId(drugId: number) {
             },
             include: {
                 drug: true,
-                status: true
             },
             orderBy: {
                 createdAt: 'desc',
             },
         });
-
         console.log("Get drug batch by drug id ok!")
+
         return data;
     } catch (error) {
         console.error('Error fetching drug batch by batch no:', error);

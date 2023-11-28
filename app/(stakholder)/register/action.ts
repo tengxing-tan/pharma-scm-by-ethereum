@@ -1,9 +1,8 @@
-'use server';
-
-import { PrismaClient } from '@prisma/client'
-const prisma = new PrismaClient()
+'use server'
+import { PrismaClient, Role } from '@prisma/client'
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
+const prisma = new PrismaClient()
 import { z } from 'zod';
 
 export async function createStakeholder(formData: FormData) {
@@ -16,7 +15,6 @@ export async function createStakeholder(formData: FormData) {
     state: z.string(),
     country: z.string().min(1),
     role: z.string().min(1),
-    publicKey: z.string().min(1),
   });
 
   try {
@@ -29,17 +27,41 @@ export async function createStakeholder(formData: FormData) {
       state: formData.get('state'),
       country: formData.get('country'),
       role: formData.get('role'),
-      publicKey: formData.get('publicKey'),
     });
 
-    const result = await prisma.stakeholder.create({
+    const role = validatedData.role
+
+    const data = await prisma.stakeholder.create({
       data: validatedData,
     });
 
-    console.log('Result: ', result);
-    revalidatePath('/');
+    if (role === Role.IMPORTER) {
+      await prisma.importer.create({
+        data: {
+          stakeholderId: data.id,
+        }
+      })
+      console.log('Added to importer table')
+    } else if (role === Role.MANUFACTURER) {
+      await prisma.manufacturer.create({
+        data: {
+          stakeholderId: data.id,
+        }
+      })
+      console.log('Added to manufacturer table')
+    } else if (role === Role.WHOLESALER) {
+      await prisma.wholesaler.create({
+        data: {
+          stakeholderId: data.id,
+        }
+      })
+      console.log('Added to wholesaler table')
+    }
+
+    console.log('Create stakeholder ok! stakeholder id: ', data.id);
+    revalidatePath('/register')
   } catch (error) {
     console.log('Error: ', error);
-    redirect('/register');
   }
+  redirect(`product-catalogue`)
 }

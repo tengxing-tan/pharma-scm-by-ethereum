@@ -16,8 +16,8 @@ export default async function Page({ params }: { params: { batchNo: string } }) 
             </div>
 
             <div className="pt-6">
-                <Heading heading="Supply Chain Overview" />
-                <ScOverview />
+                <h2 className="py-4 text-3xl text-gray-800">Supply Chain Overview</h2>
+                <ScOverview batch={data} />
             </div>
         </div>
     )

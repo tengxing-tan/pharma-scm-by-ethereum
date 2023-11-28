@@ -8,3 +8,16 @@ export async function getStakeholders() {
         console.error('Error fetching stakeholder:', error);
     }
 }
+
+export async function getManufacturers() {
+    try {
+        const data = await prisma.manufacturer.findMany({
+            include: {
+                info: true
+            }
+        })
+        return data
+    } catch (error) {
+        console.error('Error fetching manufacturer:', error);
+    }
+}

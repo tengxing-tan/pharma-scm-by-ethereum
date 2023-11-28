@@ -1,30 +1,23 @@
-export default function ScOverview() {
+export default function ScOverview({ batch }: { batch: any }) {
+    const manufacturer = batch.drug.manufacturer
 
     return (
         <div className="flex flex-col items-center justify-center bg-gray-500/5 p-6">
-            <h3 className="mb-6 w-full text-left text-xl font-bold text-gray-600">
+            <h3 className="mb-6 w-full text-left text-xl text-gray-600">
                 Manufacturing and Packaging
             </h3>
             <div className="grid w-full grid-cols-1 sm:grid-cols-5">
                 <p className="text-primary-500 w-full p-2 font-bold sm:col-span-2 sm:pr-12 sm:text-right">
-                    *Oct 21, 2020
-                </p>
-                <div className="border-primary-500 border-l-2 px-6 py-4 sm:col-span-3">
-                    <p className="pb-2 text-lg font-semibold text-gray-600">
-                        *Product name
-                        <span className="text-base font-normal"> had registered</span>
-                    </p>
+                    {batch.manufactureDate}</p>
+                <div className="border-primary-500 border-l-2 px-6 py-2 sm:col-span-3">
+                    <p className="pb-2 text-gray-600">
+                        It had <span className="text-base font-semibold">manufactured</span></p>
                     <p className="text-sm font-medium text-gray-600">
-                        Manufactured by:{' '}
-                        <span className="text-gray-800">*ABC Sdn Bhd</span>
-                    </p>
+                        by <span className="text-gray-800 text-base capitalize">{manufacturer.info.name.toLowerCase()}</span></p>
                     <p className="text-sm font-medium text-gray-600">
-                        Location: <span className="text-gray-800">*Malaysia</span>{' '}
-                    </p>
+                        at <span className="text-gray-800 text-base ">{manufacturer.info.country}</span></p>
                     <p className="text-sm font-medium text-gray-600">
-                        Company address:{' '}
-                        <span className="text-gray-800">*No 11 Jalan Alor.</span>{' '}
-                    </p>
+                        Company address: <span className="text-gray-800 text-base">{manufacturer.info.address}</span></p>
                 </div>
             </div>
             <div className="grid w-full grid-cols-1 sm:grid-cols-5">
@@ -53,7 +46,7 @@ export default function ScOverview() {
                 </div>
             </div>
 
-            <h3 className="mb-6 w-full text-left text-xl font-bold text-gray-600">
+            <h3 className="mb-6 w-full text-left text-xl text-gray-600">
                 Importer
             </h3>
             <div className="grid w-full grid-cols-1 pb-4 sm:grid-cols-5">
@@ -80,7 +73,7 @@ export default function ScOverview() {
                 </div>
             </div>
 
-            <h3 className="mb-6 w-full text-left text-xl font-bold text-gray-600">
+            <h3 className="mb-6 w-full text-left text-xl text-gray-600">
                 Wholesaler
             </h3>
             <div className="grid w-full grid-cols-1 pb-4 sm:grid-cols-5">

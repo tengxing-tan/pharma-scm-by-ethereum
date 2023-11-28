@@ -2,12 +2,12 @@ import { Heading } from "app/_ui/heading";
 import ProductDescription from "app/_ui/product-description";
 import { getDrugById } from "app/api/action/getDrug";
 import { getDrugBatchByDrugId } from "app/api/action/getDrugBatch";
-import { Process } from "lib/enum";
 import Link from "next/link";
 
 export default async function Page({ params }: { params: { id: string } }) {
     const drug = await getDrugById(Number(params.id))
     const drugBatches = await getDrugBatchByDrugId(Number(params.id))
+    console.log(drugBatches)
 
     return (
         <div className="px-6">
@@ -21,22 +21,26 @@ export default async function Page({ params }: { params: { id: string } }) {
                 <p className="text-sm text-gray-700 pb-2">Showing {drugBatches ? drugBatches.length : '0'} rows.</p>
                 <div className="grid grid-cols-3 font-semibold text-gray-700 pb-1 mb-6  border-b">
                     <p>Batch no.</p>
-                    <p>Status</p>
                     <p>Date</p>
                 </div>
                 <ul role="list" className="-my-6 divide-y divide-gray-200">
                     {drugBatches ? drugBatches.map((item) => (
-                        <li key={item.id} className="grid grid-cols-3 py-2 text-gray-800">
+                        < li key={item.id} className="grid grid-cols-3 py-2 text-gray-800" >
                             <Link href={`${item.id}/${item.batchNo}`}>
                                 <p className="font-mono hover:underline">{item.batchNo}</p>
                             </Link>
-                            <p className="text-sm">{Process.item.status.name}</p>
                             <p className="text-sm">{item.createdAt.toLocaleDateString()}</p>
                         </li>
                     )) :
                         <li className="py-12 text-center text-gray-700">No batches yet.</li>}
                 </ul>
             </div>
-        </div>
+        </div >
     )
-} 
+}
+
+function capitalizeEnumValue(value: string): string {
+    const words = value.split('_');
+    const capitalizedWords = words.map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase());
+    return capitalizedWords.join(' ');
+}
