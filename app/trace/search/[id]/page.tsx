@@ -25,7 +25,7 @@ export default async function Page({ params }: { params: { id: string } }) {
                 <ul role="list" className="-my-6 divide-y divide-gray-200">
                     {drugBatches ? drugBatches.map((item) => (
                         < li key={item.id} className="grid grid-cols-3 py-2 text-gray-800" >
-                            <Link href={`${item.batchNo}`}>
+                            <Link href={`/trace/${item.batchNo}`}>
                                 <p className="font-mono hover:underline">{item.batchNo}</p>
                             </Link>
                             <p className="text-sm">{item.createdAt.toLocaleDateString()}</p>

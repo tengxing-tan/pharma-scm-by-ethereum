@@ -23,7 +23,7 @@ export default async function Page({ searchParams }: { searchParams: { type: str
       <ul role="list" className="-my-6 divide-y divide-gray-200">
         {result && result.map((item) => (
           <li key={item.id} className="pt-6">
-            <Link href={`${item.id}`}>
+            <Link href={`search/${item.id}`}>
               <ProductDescription item={item} />
             </Link>
           </li>
