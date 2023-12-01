@@ -1,7 +1,8 @@
+'use client'
 export default function Page() {
     return (
         <div>
-            Beautiful landing page
+            <h1>error</h1>
         </div>
     )
 }

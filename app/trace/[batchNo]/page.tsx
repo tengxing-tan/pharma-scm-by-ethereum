@@ -6,7 +6,6 @@ import ScOverview from "app/trace/_component/sc-overview";
 export default async function Page({ params }: { params: { batchNo: string } }) {
     const data = await getDrugBatchByBatchNo(params.batchNo)
     const drug = data?.drug
-    console.log(data)
 
     return (
         <div className="px-6">

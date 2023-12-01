@@ -29,11 +29,11 @@ export default function ProductDescription({ item }: { item: any }) {
                     </div>
                     <div className="mt-1 text-sm text-gray-700">
                         <p className="mt-1 text-xs text-gray-700">
-                            <span className="text-gray-500">Registered by: </span>
+                            <span className="text-gray-500">Holder: </span>
                             <span className="text-sm capitalize"> {item.owner.name.toLowerCase()}</span>
                         </p>
                         <p className="mt-1 text-xs text-gray-700">
-                            <span className="text-gray-500">Manufacturerd by: </span>
+                            <span className="text-gray-500">Manufacturer: </span>
                             <span className="text-sm capitalize"> {item.manufacturer.info.name.toLowerCase()}</span>
                         </p>
                     </div>

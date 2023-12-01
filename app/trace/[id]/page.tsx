@@ -7,7 +7,6 @@ import Link from "next/link";
 export default async function Page({ params }: { params: { id: string } }) {
     const drug = await getDrugById(Number(params.id))
     const drugBatches = await getDrugBatchByDrugId(Number(params.id))
-    console.log(drugBatches)
 
     return (
         <div className="px-6">
@@ -26,7 +25,7 @@ export default async function Page({ params }: { params: { id: string } }) {
                 <ul role="list" className="-my-6 divide-y divide-gray-200">
                     {drugBatches ? drugBatches.map((item) => (
                         < li key={item.id} className="grid grid-cols-3 py-2 text-gray-800" >
-                            <Link href={`${item.id}/${item.batchNo}`}>
+                            <Link href={`${item.batchNo}`}>
                                 <p className="font-mono hover:underline">{item.batchNo}</p>
                             </Link>
                             <p className="text-sm">{item.createdAt.toLocaleDateString()}</p>
@@ -37,10 +36,4 @@ export default async function Page({ params }: { params: { id: string } }) {
             </div>
         </div >
     )
-}
-
-function capitalizeEnumValue(value: string): string {
-    const words = value.split('_');
-    const capitalizedWords = words.map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase());
-    return capitalizedWords.join(' ');
 }
