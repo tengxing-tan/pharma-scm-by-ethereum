@@ -13,7 +13,7 @@ export const metadata: Metadata = {
     'A playground to explore new Next.js App Router features such as nested layouts, instant loading states, streaming, and component level data fetching.',
 };
 
-export default async function RootLayout(props: { children: React.ReactNode }) {
+export default async function StakeholderLayout(props: { children: React.ReactNode }) {
   return (
     <html lang="en" className="[color-scheme:light]">
       <body className="overflow-y-scroll bg-white bg-[url('/grid.svg')]">
