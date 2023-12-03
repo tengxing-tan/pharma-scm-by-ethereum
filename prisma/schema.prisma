@@ -52,6 +52,9 @@ model ProductStatus {
   description String?
   address     String?
   country     String?
+  toWhom      String?
+  toCountry   String?
+  toAddress   String?
 
   DrugBatch DrugBatch @relation(fields: [drugBatchId], references: [id])
 }

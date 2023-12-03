@@ -20,6 +20,11 @@ export async function drugBatchSeeder() {
                             stage: Role.IMPORTER,
                             process: Process.UNDERWENT_MIXING_ENCAPSULATION,
                             date: new Date().toISOString().substring(0, 10),
+                            country: 'Malaysia',
+                            address: 'Pekan, Pahang',
+                            toWhom: 'RANBAXY (INDONESIA) SDN. BHD.',
+                            toCountry: 'Indonesia',
+                            toAddress: 'Jakarta'
                         }
                     }
                 },
