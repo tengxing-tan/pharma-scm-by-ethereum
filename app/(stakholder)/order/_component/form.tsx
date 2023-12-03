@@ -44,8 +44,8 @@ export default function Form({
                             Batch No.
                             <span className="text-rose-500">*</span></label>
                         <div className="focus-within:ring-primary-500 flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset lg:max-w-md">
-                            <input className="block flex-1 border-0 bg-transparent p-2 text-gray-900 placeholder:text-gray-400 focus:ring-0"
-                                name="batchNo" type="text" value={form.batchNo} required
+                            <input className="block flex-1 border-0 bg-transparent p-2 text-gray-600 placeholder:text-gray-400 focus:ring-0"
+                                name="batchNo" type="text" value={form.batchNo} disabled
                                 onChange={handleForm} />
                         </div>
                     </div>
