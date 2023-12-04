@@ -21,3 +21,25 @@ export async function getManufacturers() {
         console.error('Error fetching manufacturer:', error);
     }
 }
+export async function getStakeholdersByRole(role: string) {
+
+    const data = (role === "MANUFACTURER") ? await prisma.manufacturer.findMany({
+        include: {
+            info: true
+        }
+    }) : (role === "IMPORTER") ? await prisma.importer.findMany({
+        include: {
+            info: true
+        }
+    }) : (role === "WHOLESALER") ? await prisma.wholesaler.findMany({
+        include: {
+            info: true
+        }
+    }) : null
+
+    if (!data) {
+        console.log("Get stakeholders by role OK!")
+    }
+
+    return data
+}

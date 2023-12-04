@@ -5,7 +5,6 @@ import Link from 'next/link';
 
 export default async function Page() {
     const manufacturers = await getManufacturers()
-    console.log(manufacturers)
 
     return (
         <div className="max-w-none p-6">

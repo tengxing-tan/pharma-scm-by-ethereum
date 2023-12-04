@@ -1,24 +1,52 @@
-import { Process } from '@prisma/client';
+'use client'
+import React, { useState } from 'react'
 import { updateDrugBatch } from '../action';
+import { Stakeholder, DrugBatch, Role } from '@prisma/client';
 import Link from 'next/link';
-import { Processes } from 'lib/enum';
-import FormRoleOptions from 'app/_ui/form-role';
+import FormRoleOptions from 'app/(stakholder)/order/_component/form-role';
+import UserInput from 'app/_ui/user-input';
+import FormProcessOption from '../_component/form-process';
+import FormStakeholder from '../_component/form-stakeholder';
 
 export default function Form({
-    drugBatch
+    drugBatch,
+    manufacturers,
+    importers,
+    wholesalers
 }: {
-    drugBatch: {
+    drugBatch: DrugBatch | null | undefined,
+    manufacturers: {
         id: number;
-        drugId: number;
-        batchNo: string;
-        quantity: number | null;
-        manufactureDate: string;
-        expiryDate: string;
-        wholesalerId: number | null;
-        importerId: number | null;
-        createdAt: Date;
-    } | null | undefined
+        stakeholderId: number;
+        info: Stakeholder;
+    }[] | null | undefined,
+    importers: {
+        id: number;
+        stakeholderId: number;
+        info: Stakeholder;
+    }[] | null | undefined,
+    wholesalers: {
+        id: number;
+        stakeholderId: number;
+        info: Stakeholder;
+    }[] | null | undefined,
 }) {
+
+    const getToday = () => new Date().toISOString().slice(0, 10)
+
+    const [form, setForm] = React.useState({
+        // stage: "state stage",
+    })
+    const handleForm = (e: React.ChangeEvent<HTMLSelectElement>) => {
+        setForm({
+            ...form,
+            [e.target.name]: e.target.value
+        })
+    }
+    const [stage, setStage] = useState("testing")
+    const handleStage = (e: React.ChangeEvent<HTMLSelectElement>) => {
+        setStage(e.target.options[e.target.selectedIndex].text.toUpperCase())
+    }
 
     return (
         <form action={updateDrugBatch}>
@@ -60,21 +88,71 @@ export default function Form({
                     <h3 className="pt-6 border-t border-gray-900/10 text-gray-800 text-2xl font-semibold">
                         Update Shipment Process</h3>
                     {/* user input */}
-                    <FormRoleOptions />
-                    {/* user input */}
                     <div className="w-full max-w-sm">
                         <label className="block pb-1 text-sm font-medium text-gray-700">
-                            Process
+                            Stage
                             <span className="text-rose-500">*</span>
                             <div className="mt-1 focus-within:ring-primary-500 flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset lg:max-w-md">
-                                <select name="role" className="block flex-1 border-0 bg-transparent p-2 text-gray-900 placeholder:text-gray-400 focus:ring-0 capitalize">
-                                    {Object.values(Process).map((item) => (
-                                        <option key={item} value={item} className="capitalize">{Processes[item]}</option>
+                                <select onChange={handleStage} name="role" className="block flex-1 border-0 bg-transparent p-2 text-gray-900 placeholder:text-gray-400 focus:ring-0 capitalize">
+                                    {Object.values(Role).map((item) => (
+                                        <option key={item} value={item}>{item.toLowerCase()}</option>
                                     ))}
                                 </select>
                             </div>
                         </label>
                     </div>
+                    {
+                        stage === Role.MANUFACTURER ?
+                            <FormStakeholder
+                                label="Manufacturer"
+                                form={{ name: "manufacturer" }}
+                                stakeholders={manufacturers}
+                                isRequired={true}></FormStakeholder> : null
+                    }
+                    {
+                        stage === Role.IMPORTER ? (
+                            <>
+                                <FormStakeholder
+                                    label="Importer"
+                                    form={{ name: "importer" }}
+                                    stakeholders={importers}
+                                    isRequired={true}></FormStakeholder>
+                                <UserInput
+                                    label="Country"
+                                    form={{ name: "country", value: "", type: "text" }}
+                                    isRequired={false} />
+                                <UserInput
+                                    label="Address"
+                                    form={{ name: "address", value: "", type: "text" }}
+                                    isRequired={false} />
+                            </>
+                        ) : null
+                    }
+                    {
+                        stage === Role.WHOLESALER ?
+                            <FormStakeholder
+                                label="Wholesaler"
+                                form={{ name: "wholesaler" }}
+                                stakeholders={wholesalers}
+                                isRequired={true}></FormStakeholder> : null
+                    }
+                    {/* user input */}
+                    <FormProcessOption />
+
+                    <UserInput
+                        label="Description"
+                        form={{ name: "description", value: "", type: "text" }}
+                        isRequired={false} />
+                    <UserInput
+                        label="Date"
+                        form={{ name: "date", value: getToday(), type: "date" }}
+                        isRequired={true} />
+
+                    <FormStakeholder
+                        label="Importer"
+                        form={{ name: "importer" }}
+                        stakeholders={importers}
+                        isRequired={true}></FormStakeholder>
 
                     <div>
                         <p>importer, wholesaler</p>
@@ -104,6 +182,6 @@ export default function Form({
                         </button></Link>
                 </div>
             </div>
-        </form>
+        </form >
     );
 }
