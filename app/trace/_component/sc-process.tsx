@@ -1,4 +1,4 @@
-import { Process } from "lib/enum"
+import { Processes } from "lib/enum"
 
 export default function ScProcess({ phase, name }:
     {
@@ -18,7 +18,7 @@ export default function ScProcess({ phase, name }:
                             On {item.date}</p>
                         <div className={`border-${color}-500 border-l-2 px-6 py-2 sm:col-span-3`}>
                             <p className="pb-2 text-gray-600">
-                                It was <span className="text-base font-semibold">{Process[String(item.process)]}</span></p>
+                                It was <span className="text-base font-semibold">{Processes[String(item.process)]}</span></p>
                             {item.description ? (
                                 <p className="text-sm font-medium text-gray-600">
                                     Description: <span className="text-gray-800 text-base">{item.description}</span></p>

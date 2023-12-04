@@ -20,21 +20,13 @@ export async function getDrugBatches() {
     }
 }
 
+// order/[batchNo]/page.tsx
 export async function getDrugBatchByBatchNo(batchNo: string) {
     try {
         const data = await prisma.drugBatch.findUnique({
             where: {
                 batchNo: batchNo
             },
-            include: {
-                drug: {
-                    include: {
-                        owner: true,
-                        manufacturer: { include: { info: true } }
-                    }
-                },
-                status: true,
-            }
         });
 
         console.log("get drug batch by batch no ok!");

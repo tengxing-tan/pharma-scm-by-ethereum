@@ -11,8 +11,8 @@ export async function drugBatchSeeder() {
                     drugId: i % 22 + 1,
                     batchNo: new Date().toISOString().substring(0, 10).split('-').join('').concat(i.toString()),
                     quantity: Math.floor(Math.random() * 1000) + 1, // Random quantity
-                    manufactureDate: `01/${i % 12 + 1}/22`, // Random MM/YY format
-                    expiryDate: `01/${(i + 6) % 12 + 1}/23`, // Random MM/YY format
+                    manufactureDate: `2023-11-01`, // Random MM/YY format
+                    expiryDate: `2025-11-01`, // Random MM/YY format
                     wholesalerId: 1,
                     importerId: 1,
                     status: {

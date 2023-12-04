@@ -1,4 +1,4 @@
-export const Process = {
+export const Processes = {
     // manufacturing & packaging
     UNDERWENT_MIXING_ENCAPSULATION: 'Underwent Mixing & Encapsulation',
     LABELLING_PACKAGING: 'Labelling & Packaging',

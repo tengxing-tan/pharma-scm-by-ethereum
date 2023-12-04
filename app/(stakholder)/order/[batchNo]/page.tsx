@@ -4,8 +4,6 @@ import { getDrugBatchByBatchNo } from 'app/api/action/getDrugBatch';
 
 export default async function Page({ params, searchParams }: { params: { batchNo: string }, searchParams: { updated: string } }) {
 
-    // const drugBatch = await getDrugBatchByBatchNo(params.batchNo)
-
     const drugBatch = await getDrugBatchByBatchNo(params.batchNo)
 
     return (

@@ -2,45 +2,39 @@
 
 import { PrismaClient } from '@prisma/client'
 const prisma = new PrismaClient()
-import { revalidatePath, revalidateTag } from 'next/cache';
+import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
 import { z } from 'zod';
 
 export async function updateDrugBatch(formData: FormData) {
     const batchId = Number(formData.get('batchId'));
-    const batchNo = formData.get('batchNo');
     let valid = '0'
 
     const scheme = z.object({
-        batchNo: z.string().min(1),
         quantity: z.number().min(1),
         manufactureDate: z.string().min(1),
         expiryDate: z.string().min(1),
     });
 
-    try {
-        const validatedData = scheme.parse({
-            batchNo: formData.get('batchNo'),
-            quantity: Number(formData.get('quantity')),
-            manufactureDate: formData.get('manufactureDate'),
-            expiryDate: formData.get('expiryDate'),
-        });
+    const validatedData = scheme.parse({
+        quantity: Number(formData.get('quantity')),
+        manufactureDate: formData.get('manufactureDate'),
+        expiryDate: formData.get('expiryDate'),
+    })
 
-        await prisma.drugBatch.update({
-            where: {
-                id: batchId
-            },
-            data: {
-                ...validatedData
-            }
-        });
+    const result = await prisma.drugBatch.update({
+        where: {
+            id: batchId
+        },
+        data: {
+            ...validatedData
+        }
+    });
 
-        console.log('Done updating drug batch');
-        valid = 'ok'
-    } catch (error) {
-        console.log('Error: ', error);
-    }
-    redirect(`/order/${batchNo}?updated=${valid}`, 'replace');
+    console.log('Done updating drug batch');
+    valid = 'ok'
+
+    redirect(`/order/${result.batchNo}?updated=${valid}`, "replace");
 }
 
 export async function deleteDrugBatch(batchId: number) {
@@ -59,7 +53,7 @@ export async function deleteDrugBatch(batchId: number) {
     } catch (error) {
         console.log('Error: ', error);
     }
-    redirect(`/order`);
+    redirect(`/ order`);
 }
 
 export async function createDrugBatch(formData: FormData) {
