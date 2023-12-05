@@ -1,5 +1,4 @@
-import { PrismaClient } from '@prisma/client'
-const prisma = new PrismaClient()
+import prisma from "lib/prisma-client";
 
 export async function drugBatchSeeder() {
 
@@ -22,9 +21,7 @@ export async function drugBatchSeeder() {
                             date: new Date().toISOString().substring(0, 10),
                             country: 'Malaysia',
                             address: 'Pekan, Pahang',
-                            toWhom: 'RANBAXY (INDONESIA) SDN. BHD.',
-                            toCountry: 'Indonesia',
-                            toAddress: 'Jakarta'
+                            company: 'RANBAXY (INDONESIA) SDN. BHD.',
                         }
                     }
                 },

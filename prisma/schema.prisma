@@ -48,13 +48,11 @@ model ProductStatus {
   drugBatchId Int
   stage       Role
   process     Process
-  date        String
   description String?
-  address     String?
+  date        String
+  company     String?
   country     String?
-  toWhom      String?
-  toCountry   String?
-  toAddress   String?
+  address     String?
 
   DrugBatch DrugBatch @relation(fields: [drugBatchId], references: [id])
 }

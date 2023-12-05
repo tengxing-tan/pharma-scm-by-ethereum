@@ -3,7 +3,9 @@ export default function UserInput({ label, form, isRequired }: {
     form: {
         name: string,
         value: string,
-        type: string
+        type: string,
+        step?: number,
+        min?: number,
     },
     isRequired: boolean
 }) {

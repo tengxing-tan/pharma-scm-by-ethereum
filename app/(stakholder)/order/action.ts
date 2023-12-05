@@ -1,40 +1,89 @@
 'use server';
 
-import { PrismaClient } from '@prisma/client'
+import { PrismaClient, Process, Role } from '@prisma/client'
 const prisma = new PrismaClient()
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
 import { z } from 'zod';
 
-export async function updateDrugBatch(formData: FormData) {
-    const batchId = Number(formData.get('batchId'));
-    let valid = '0'
-
-    const scheme = z.object({
-        quantity: z.number().min(1),
-        manufactureDate: z.string().min(1),
-        expiryDate: z.string().min(1),
-    });
-
-    const validatedData = scheme.parse({
-        quantity: Number(formData.get('quantity')),
-        manufactureDate: formData.get('manufactureDate'),
-        expiryDate: formData.get('expiryDate'),
+export async function getDrugBatch(id: number) {
+    const data = await prisma.drugBatch.findUnique({
+        where: {
+            id: id
+        }
     })
 
-    const result = await prisma.drugBatch.update({
-        where: {
-            id: batchId
-        },
-        data: {
-            ...validatedData
+    return data
+}
+
+export async function updateDrugBatch(formData: FormData) {
+    const batchId = Number(formData.get('batchId'));
+    const existingBatch = await getDrugBatch(batchId);
+    const batchNo = existingBatch?.batchNo;
+
+    const action = new String(formData.get('action'));
+    let valid = '0'
+    let result = null;
+
+
+
+    if (action === 'update basic details') {
+        const basicData = basicScheme.parse({
+            quantity: formData.get('quantity'),
+            manufactureDate: formData.get('manufactureDate'),
+            expiryDate: formData.get('expiryDate'),
+        })
+        try {
+            result = await prisma.drugBatch.update({
+                where: {
+                    id: batchId
+                },
+                data: {
+                    ...basicData
+                }
+            });
+        } catch (error) {
+            console.log('Error: ', error)
+            valid = 'updateError'
         }
-    });
+        valid = 'updateOk'
+        redirect(`/order/${batchNo}?updated=${valid}`);
+    }
+
+    if (action === 'update shipment process') {
+        const productStatusData = productStatusSchema.parse({
+            date: formData.get('date'),
+            description: formData.get('description'),
+            company: formData.get('company'),
+            address: formData.get('address'),
+            country: formData.get('country'),
+        });
+
+        result = await prisma.productStatus.create({
+            data: {
+                drugBatchId: batchId,
+                stage: formData.get('stage'),
+                process: formData.get('process'),
+                ...productStatusData,
+            },
+        });
+        valid = 'updateProductStatusOk'
+        redirect(`/order/${batchNo}?updated=${valid}`);
+    }
+
+    if (action === 'delete') {
+        try {
+            await deleteDrugBatch(batchId)
+        } catch (error) {
+            console.log('Error: ', error)
+            valid = 'deleteError'
+        }
+        valid = 'deleteOk'
+        redirect(`/order`);
+    }
+
 
     console.log('Done updating drug batch');
-    valid = 'ok'
-
-    redirect(`/order/${result.batchNo}?updated=${valid}`, "replace");
 }
 
 export async function deleteDrugBatch(batchId: number) {
@@ -57,8 +106,6 @@ export async function deleteDrugBatch(batchId: number) {
 }
 
 export async function createDrugBatch(formData: FormData) {
-
-
     const schema = z.object({
         batchNo: z.string().min(1),
         quantity: z.number().min(1),
@@ -99,3 +146,22 @@ export async function createDrugBatch(formData: FormData) {
     }
     revalidatePath('/');
 }
+
+const basicScheme = z.object({
+    quantity: z.number().min(1),
+    manufactureDate: z.string().min(1),
+    expiryDate: z.string().min(1),
+});
+
+const productStatusSchema = z.object({
+    date: z.date(),
+    description: z.string(),
+    company: z.string(),
+    address: z.string(),
+    country: z.string(),
+})
+
+const stakeholderSchema = z.object({
+    importer: z.string().min(1),
+    wholesaler: z.string().min(1),
+})
