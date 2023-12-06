@@ -4,7 +4,7 @@ import UserInput from 'app/_ui/user-input';
 import ShipmentProcess from '../_component/form-shipment-process';
 import { getStakeholdersByRole } from "app/api/action/getStakeholder"
 import { getDrugBatchByBatchNo } from 'app/api/action/getDrugBatch';
-import { updateDrugBatch } from '../action';
+import { deleteDrugBatch, updateBasicDetails, updateShipmentProcess, updateStakeholder } from '../action';
 import FormStakeholder from '../_component/form-stakeholder';
 
 export default async function Page({ params, searchParams }: {
@@ -28,8 +28,7 @@ export default async function Page({ params, searchParams }: {
                         Cancel
                     </button></Link>
             </Heading>
-
-            <form action={updateDrugBatch}>
+            <form action={updateBasicDetails}>
                 <div className="space-y-12 border-b border-gray-900/10 pb-12">
                     {/* form section */}
                     <div className="mt-8 grid w-full grid-cols-1 gap-6">
@@ -50,14 +49,15 @@ export default async function Page({ params, searchParams }: {
                         <div className="w-fit flex space-x-4 justify-center">
                             <input className="capitalize whitespace-nowrap bg-primary-500 text-white rounded-md px-4 py-1 hover:bg-primary-600 focus:ring-2 focus:ring-offset-2 focus:ring-primary-500"
                                 type="submit" name="action" value="update basic details" />
-                            {searchParams.updated && searchParams.updated === 'updateOk' ? (
+                            {searchParams.updated && searchParams.updated === 'basicOk' ? (
                                 <p className="p-2 text-gray-700 text-sm">👍 Update data successfully!</p>
                             ) : null}
                         </div>
                     </div>
                 </div>
             </form>
-            <form>
+            <form action={updateShipmentProcess}>
+                <input type="hidden" name="batchId" value={drugBatch?.id} />
                 <div className="space-y-12 border-b border-gray-900/10 pb-12">
                     {/* form section */}
                     <div className="mt-8 grid w-full grid-cols-1 gap-6">
@@ -65,12 +65,15 @@ export default async function Page({ params, searchParams }: {
                         <div className="w-fit flex space-x-4 justify-center">
                             <input className="capitalize whitespace-nowrap bg-primary-500 text-white rounded-md px-4 py-1 hover:bg-primary-600 focus:ring-2 focus:ring-offset-2 focus:ring-primary-500"
                                 type="submit" name="action" value="update shipment process" />
+                            {searchParams.updated && searchParams.updated === 'shipmentOk' ? (
+                                <p className="p-2 text-gray-700 text-sm">👍 Update data successfully!</p>
+                            ) : null}
                         </div>
                     </div>
                 </div>
             </form>
-
-            <form>
+            <form action={updateStakeholder}>
+                <input type="hidden" name="batchId" value={drugBatch?.id} />
                 <div className="space-y-12 border-b border-gray-900/10 pb-12">
                     {/* form section */}
                     <div className="mt-8 grid w-full grid-cols-1 gap-6">
@@ -92,17 +95,23 @@ export default async function Page({ params, searchParams }: {
                         <div className="w-fit flex space-x-4 justify-center">
                             <input className="capitalize whitespace-nowrap bg-primary-500 text-white rounded-md px-4 py-1 hover:bg-primary-600 focus:ring-2 focus:ring-offset-2 focus:ring-primary-500"
                                 type="submit" name="action" value="update stakeholder" />
+                            {searchParams.updated && searchParams.updated === 'stakeholderOk' ? (
+                                <p className="p-2 text-gray-700 text-sm">👍 Update data successfully!</p>
+                            ) : null}
                         </div>
                     </div >
                 </div >
             </form >
 
-            {/* submit button */}
-            < div className="space-y-6 pt-6">
-                <p className="text-xl font-semibold text-gray-800">Dangerous Action</p>
-                <input className="capitalize whitespace-nowrap bg-rose-500 text-white font-semibold rounded-lg px-4 py-1 hover:bg-rose-600 focus:ring-2 focus:ring-offset-2 focus:ring-rose-500"
-                    type="submit" name="action" value="remove" />
-            </div>
+            {/* remove button */}
+            <form action={deleteDrugBatch}>
+                <input type="hidden" name="batchId" value={drugBatch?.id} />
+                <div className="space-y-6 pt-6">
+                    <p className="text-xl font-semibold text-gray-800">Dangerous Action</p>
+                    <input className="capitalize whitespace-nowrap bg-rose-500 text-white font-semibold rounded-lg px-4 py-1 hover:bg-rose-600 focus:ring-2 focus:ring-offset-2 focus:ring-rose-500"
+                        type="submit" name="action" value="remove" />
+                </div>
+            </form>
         </div >
     );
 }

@@ -4,12 +4,17 @@ import { Heading } from 'app/_ui/heading';
 import { getDrugBatches } from 'app/api/action/getDrugBatch';
 import Link from 'next/link';
 
-export default async function Page() {
+export default async function Page({ searchParams }: { searchParams: { action?: string } }) {
     const items = await getDrugBatches()
     // console.log(items)
 
     return (
         <div className="max-w-none p-6">
+            {/* Remove Batch Message */}
+            {searchParams.action && searchParams.action === 'deleteOk' ? (
+                <div className="absolute top-4 p-2 text-gray-700 text-sm">👍 Remove data successfully!</div>
+            ) : null}
+
             <Heading heading="Order" >
                 <Link href="/order/create">
                     <button className="whitespace-nowrap bg-indigo-500 text-white font-semibold rounded-lg px-4 py-1 hover:bg-indigo-600 focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
