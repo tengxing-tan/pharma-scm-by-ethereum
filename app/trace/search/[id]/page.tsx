@@ -2,17 +2,24 @@ import { Heading } from "app/_ui/heading";
 import ProductDescription from "app/_ui/product-description";
 import { getDrugById } from "app/api/action/getDrug";
 import { getDrugBatchByDrugId } from "app/api/action/getDrugBatch";
+import { getStakeholderById } from "app/api/action/getStakeholder";
 import Link from "next/link";
 
 export default async function Page({ params }: { params: { id: string } }) {
     const drug = await getDrugById(Number(params.id))
+    const owner = await getStakeholderById(Number(drug?.ownerId))
+    const manufacturer = await getStakeholderById(Number(drug?.manufacturerId))
     const drugBatches = await getDrugBatchByDrugId(Number(params.id))
 
     return (
         <div className="px-6">
             <Heading heading="Product Detail" />
             <div className="p-4 bg-gray-50 border-l-2 rounded-sm border-primary-500">
-                <ProductDescription item={drug} />
+                <ProductDescription props={{
+                    drug: drug,
+                    owner: owner,
+                    manufacturer: manufacturer,
+                }} />
             </div>
 
             <div className="pt-6">

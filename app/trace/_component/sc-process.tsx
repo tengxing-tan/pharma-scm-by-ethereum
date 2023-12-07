@@ -1,22 +1,26 @@
+import { Stakeholder, ProductStatus } from "@prisma/client"
 import { Processes } from "lib/enum"
 
-export default function ScProcess({ phase, name }:
-    {
-        phase?: any,
-        name: string
-    }) {
+export default function ScProcess({ props }: {
+    props: {
+        stakeholder: Stakeholder | null | undefined
+        phase: ProductStatus[],
+        color: string
+    }
+}) {
 
-    const color = (name === 'IMPORTER') ? 'amber' :
-        (name) ? 'emerald' : 'gray'
+    if (typeof props.stakeholder === "undefined" || !props.stakeholder) {
+        return <div>loading...</div>
+    }
 
     return (
         <div className="w-full">
             {
-                phase.length !== 0 ? phase.map((item: any) => (
-                    <div key={item.id} className="pb-4 grid w-full grid-cols-1 sm:grid-cols-5">
-                        <p className={`text-${color}-500 w-full p-2 font-bold sm:col-span-2 sm:pr-12 sm:text-right`}>
+                props.phase.length !== 0 ? props.phase.map((item: any) => (
+                    <div key={item.id} className="grid w-full grid-cols-1 pt-1 sm:grid-cols-5">
+                        <p className={`${(props.color === "amber") ? "text-amber-500" : "text-emerald-500"}  w-full mt-4 p-2 font-bold sm:col-span-2 sm:pr-12 sm:text-right`}>
                             On {item.date}</p>
-                        <div className={`border-${color}-500 border-l-2 px-6 py-2 sm:col-span-3`}>
+                        <div className={`${(props.color === "amber") ? "border-amber-500" : "border-emerald-500"} border-l-2 px-6 pt-6 sm:col-span-3`}>
                             <p className="pb-2 text-gray-600">
                                 It was <span className="text-base font-semibold">{Processes[String(item.process)]}</span></p>
                             {item.description ? (
@@ -24,22 +28,22 @@ export default function ScProcess({ phase, name }:
                                     Description: <span className="text-gray-800 text-base">{item.description}</span></p>
                             ) : null}
                             <p className="text-sm font-medium text-gray-600">
-                                by <span className="text-gray-800 text-base capitalize">stakeholer</span></p>
+                                by <span className="text-gray-800 text-base capitalize">{props.stakeholder?.name.toLowerCase()}</span></p>
                             <p className="text-sm font-medium text-gray-600">
                                 at <span className="text-gray-800 text-base ">{item.country}</span></p>
                             <p className="text-sm font-medium text-gray-600">
                                 Company address: <span className="text-gray-800 text-base">{item.address}</span></p>
-                            {item.toWhom ? (
+                            {item.company && item.company !== "" ? (
                                 <p className="pt-4 text-sm font-medium text-gray-600">
-                                    to: <span className="text-gray-800 text-base capitalize">{item.toWhom.toLowerCase()}</span></p>
+                                    to: <span className="text-gray-800 text-base capitalize">{item.company.toLowerCase()}</span></p>
                             ) : null}
-                            {item.toCountry ? (
+                            {item.country && item.country !== "" ? (
                                 <p className="text-sm font-medium text-gray-600">
-                                    at: <span className="text-gray-800 text-base">{item.toCountry}</span></p>
+                                    at: <span className="text-gray-800 text-base">{item.country}</span></p>
                             ) : null}
-                            {item.toAddress ? (
+                            {item.address && item.address !== "" ? (
                                 <p className="text-sm font-medium text-gray-600">
-                                    Address: : <span className="text-gray-800 text-base">{item.toAddress}</span></p>
+                                    Address: : <span className="text-gray-800 text-base">{item.address}</span></p>
                             ) : null}
                         </div>
                     </div>

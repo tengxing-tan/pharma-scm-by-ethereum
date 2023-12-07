@@ -27,14 +27,14 @@ export async function getDrugById(id: number) {
       where: {
         id: id
       },
-      include: {
-        owner: true,
-        manufacturer: {
-          include: {
-            info: true
-          }
-        }
-      }
+      // include: {
+      //   owner: true,
+      //   manufacturer: {
+      //     include: {
+      //       info: true
+      //     }
+      //   }
+      // }
     });
     console.log("Get drug by id ok!")
     return data;

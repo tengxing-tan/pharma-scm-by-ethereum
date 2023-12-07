@@ -22,18 +22,17 @@ export async function getDrugBatches() {
 
 // order/[batchNo]/page.tsx
 export async function getDrugBatchByBatchNo(batchNo: string) {
-    try {
-        const data = await prisma.drugBatch.findUnique({
-            where: {
-                batchNo: batchNo
-            },
-        });
 
-        console.log("get drug batch by batch no ok!");
-        return data;
-    } catch (error) {
-        console.error('Error fetching drug batch by batch no:', error);
+    const data = await prisma.drugBatch.findUnique({
+        where: { batchNo: batchNo },
+    });
+
+    if (!data) {
+        console.log(`no drug batch found! (by batch no) at ${new Date().toLocaleString()}`);
     }
+
+    console.log(`get drug batch by batch no ok! at ${new Date().toLocaleString()}`);
+    return data;
 }
 
 export async function getDrugBatchByDrugId(drugId: number) {

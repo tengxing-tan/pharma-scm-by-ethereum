@@ -24,7 +24,7 @@ export async function getDrugBatch(batchNo: string) {
                     manufacturer: { include: { info: true } }
                 }
             },
-            status: true,
+            activities: true,
         }
     })
     return result

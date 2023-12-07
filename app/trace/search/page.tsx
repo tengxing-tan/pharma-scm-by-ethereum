@@ -23,7 +23,11 @@ export default async function Page({ searchParams }: { searchParams: { type: str
                 {result && result.map((item) => (
                     <li key={item.id} className="pt-6">
                         <Link href={`search/${item.id}`}>
-                            <ProductDescription item={item} />
+                            <ProductDescription props={{
+                                drug: item,
+                                owner: item.owner,
+                                manufacturer: item.manufacturer?.info,
+                            }} />
                         </Link>
                     </li>
                 ))}

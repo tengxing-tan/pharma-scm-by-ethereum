@@ -45,3 +45,46 @@ export async function getStakeholdersByRole(role: string) {
 
     return data
 }
+// trace, product-description
+export async function getStakeholderById(id: number) {
+    const data = await prisma.stakeholder.findUnique({
+        where: { id: id },
+    })
+
+    console.log("get stakeholder by id ok!")
+    return data
+}
+export async function getStakeholderByManufacturerId(id: number) {
+    const data = await prisma.manufacturer.findUnique({
+        where: { id: id },
+        select: {
+            info: true
+        }
+    })
+
+    console.log("get stakeholder by manufacturer id ok!")
+    return data.info
+}
+export async function getStakeholderByImporterId(id: number) {
+    const data = await prisma.importer.findUnique({
+        where: { id: id },
+        select: {
+            info: true
+        }
+    })
+
+    console.log("get stakeholder by importer id ok!")
+    return data.info
+}
+export async function getStakeholderByWholesalerId(id: number) {
+    const data = await prisma.wholesaler.findUnique({
+        where: { id: id },
+        select: {
+            info: true
+        }
+    })
+
+    console.log("get stakeholder by wholesaler id ok!")
+    return data?.info
+}
+
