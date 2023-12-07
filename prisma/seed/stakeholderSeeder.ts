@@ -1,6 +1,6 @@
-import prisma from "lib/prisma-client";
+import { PrismaClient } from "@prisma/client"
 
-export async function stakeholderSeeder() {
+export async function stakeholderSeeder(prisma: PrismaClient) {
 
     try {
         enum Role {

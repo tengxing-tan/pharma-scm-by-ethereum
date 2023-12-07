@@ -87,19 +87,16 @@ export async function updateShipmentProcess(formData: FormData) {
     } catch (error) {
         console.log('Error: ', error)
     }
-    const productStatusData = productStatusSchema.parse({
-        date: formData.get('date'),
-        description: formData.get('description'),
-        company: formData.get('company'),
-        address: formData.get('address'),
-        country: formData.get('country'),
-    });
 
     await prisma.productStatus.create({
         data: {
             stage: formData.get('stage'),
             process: formData.get('process'),
-            ...productStatusData,
+            date: formData.get('date'),
+            description: formData.get('description'),
+            company: formData.get('company'),
+            address: formData.get('address'),
+            country: formData.get('country'),
             DrugBatch: { connect: { id: batchId } },
         },
     });
@@ -126,20 +123,20 @@ export async function updateStakeholder(formData: FormData) {
     if (importerId !== '') {
         await prisma.drugBatch.update({
             where: { id: batchId },
-            data: { importerId: Number(importerId) }
-        });
-        console.log("update importer ok!")
+            data: { importer: connect: { importId: Number(importerId) } }
+});
+console.log("update importer ok!")
     }
 
-    if (wholesalerId !== '') {
-        await prisma.drugBatch.update({
-            where: { id: batchId },
-            data: { wholesalerId: Number(wholesalerId) }
-        });
-        console.log("update wholesaler ok!")
-    }
+if (wholesalerId !== '') {
+    await prisma.drugBatch.update({
+        where: { id: batchId },
+        data: { wholesalerId: Number(wholesalerId) }
+    });
+    console.log("update wholesaler ok!")
+}
 
-    redirect(`?updated=stakeholderOk`);
+redirect(`?updated=stakeholderOk`);
 }
 
 export async function deleteDrugBatch(formData: FormData) {

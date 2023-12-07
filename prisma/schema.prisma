@@ -5,7 +5,7 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
+  provider = "mysql"
   url      = env("DATABASE_URL")
 }
 
@@ -37,7 +37,7 @@ model DrugBatch {
   importerId      Int?
 
   drug       Drug            @relation(fields: [drugId], references: [id])
-  status     ProductStatus[]
+  activities ProductStatus[]
   wholesaler Wholesaler?     @relation(fields: [wholesalerId], references: [id])
   importer   Importer?       @relation(fields: [importerId], references: [id])
   createdAt  DateTime        @default(now()) @map(name: "created_at")
@@ -54,7 +54,7 @@ model ProductStatus {
   country     String?
   address     String?
 
-  DrugBatch DrugBatch @relation(fields: [drugBatchId], references: [id])
+  drugBatch DrugBatch @relation(fields: [drugBatchId], references: [id])
 }
 
 model Manufacturer {
@@ -98,7 +98,7 @@ model Stakeholder {
   updatedAt    DateTime      @updatedAt @map(name: "updated_at")
 }
 
-model admin {
+model Admin {
   id        Int      @id @default(autoincrement())
   email     String   @unique
   createdAt DateTime @default(now()) @map(name: "created_at")

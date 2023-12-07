@@ -6,13 +6,13 @@ import { drugSeeder } from './drugSeeder'
 import { drugBatchSeeder } from './drugBatchSeeder'
 
 async function main() {
-    const stakeholders = await stakeholderSeeder()
+    await stakeholderSeeder(prisma)
     console.log('Stakeholder seeding complete.')
 
-    const drugs = await drugSeeder()
+    await drugSeeder(prisma)
     console.log('Drug seeding complete.')
 
-    const drugBatches = await drugBatchSeeder()
+    await drugBatchSeeder(prisma)
     console.log('DrugBatch seeding complete.')
 }
 main()

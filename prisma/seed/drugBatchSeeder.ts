@@ -1,6 +1,6 @@
-import prisma from "lib/prisma-client";
+import { PrismaClient } from "@prisma/client";
 
-export async function drugBatchSeeder() {
+export async function drugBatchSeeder(prisma: PrismaClient) {
 
     try {
         // Seed drugBatchs
@@ -14,7 +14,7 @@ export async function drugBatchSeeder() {
                     expiryDate: `2025-11-01`, // Random MM/YY format
                     wholesalerId: 1,
                     importerId: 1,
-                    status: {
+                    activities: {
                         create: {
                             stage: Role.IMPORTER,
                             process: Process.UNDERWENT_MIXING_ENCAPSULATION,
