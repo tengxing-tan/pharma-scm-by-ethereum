@@ -2,7 +2,6 @@ import { PrismaClient } from "@prisma/client";
 
 export async function drugSeeder(prisma: PrismaClient) {
 
-    // "",
     try {
         // Seed Drugs
         for (let index = 0; index < 8; index++) {
@@ -12,8 +11,8 @@ export async function drugSeeder(prisma: PrismaClient) {
                     registrationNo: String(IbuprofenProducts[index]['registrationNo']),
                     activeIngredient: 'IBUPROFEN',
                     dosageForm: String(dosageForms[index % 8]),
-                    ownerId: 4,
-                    manufacturerId: 1
+                    ownerId: "peter",
+                    manufacturerId: "ranbaxy",
                 },
             });
         }
@@ -24,8 +23,8 @@ export async function drugSeeder(prisma: PrismaClient) {
                     registrationNo: String(AcetaminophenProducts[index]['registrationNo']),
                     activeIngredient: 'ACETAMINOPHEN (PARACETAMOL)',
                     dosageForm: String(dosageForms[index % 8]),
-                    ownerId: 4,
-                    manufacturerId: 1
+                    ownerId: "peter",
+                    manufacturerId: "ranbaxy",
                 },
             });
         }
@@ -36,8 +35,8 @@ export async function drugSeeder(prisma: PrismaClient) {
                     registrationNo: String(HydrochlorothiazideProducts[index]['registrationNo']),
                     activeIngredient: 'HYDROCHLOROTHIAZIDE',
                     dosageForm: String(dosageForms[index % 8]),
-                    ownerId: 4,
-                    manufacturerId: 1
+                    ownerId: "peter",
+                    manufacturerId: "ranbaxy",
                 },
             });
         }

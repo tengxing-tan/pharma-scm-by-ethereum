@@ -19,7 +19,7 @@ export default async function Page({ params }: {
     const activities = await getActivitiesByBatchId(Number(drugBatch?.id))
 
     return (
-        <div className="px-6 max-w-3xl">
+        <div className="px-6 w-full max-w-3xl">
             <Heading heading="Product Detail" />
             <div className="p-4 bg-gray-50 border-l-2 rounded-sm border-primary-500">
                 <ProductDescription props={{

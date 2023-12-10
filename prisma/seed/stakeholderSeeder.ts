@@ -17,8 +17,10 @@ export async function stakeholderSeeder(prisma: PrismaClient) {
 
         await prisma.manufacturer.create({
             data: {
+                id: "ranbaxy",
                 info: {
                     create: {
+                        id: "ranbaxy",
                         name: "RANBAXY (MALAYSIA) SDN. BHD.",
                         phoneNo: `016-7891 0234`,
                         email: `ranbaxy@example.com`,
@@ -68,6 +70,7 @@ export async function stakeholderSeeder(prisma: PrismaClient) {
         })
         await prisma.stakeholder.createMany({
             data: [{
+                id: "peter",
                 name: "PETER SDN BHD",
                 email: "peter@example.com",
                 country: "Malaysia",

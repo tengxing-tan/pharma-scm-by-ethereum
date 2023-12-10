@@ -12,8 +12,6 @@ export async function drugBatchSeeder(prisma: PrismaClient) {
                     quantity: Math.floor(Math.random() * 1000) + 1, // Random quantity
                     manufactureDate: `2023-11-01`, // Random MM/YY format
                     expiryDate: `2025-11-01`, // Random MM/YY format
-                    wholesalerId: 1,
-                    importerId: 1,
                     activities: {
                         create: {
                             stage: Role.IMPORTER,
