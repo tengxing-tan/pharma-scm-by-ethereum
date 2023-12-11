@@ -6,6 +6,7 @@ import Link from 'next/link';
 import { useSelectedLayoutSegment } from 'next/navigation';
 import clsx from 'clsx';
 import { useState } from 'react';
+import LogoutButton from './logout-btn';
 
 export function GlobalNav() {
   const [isOpen, setIsOpen] = useState(false);
@@ -71,6 +72,7 @@ export function GlobalNav() {
               </div>
             );
           })}
+          <LogoutButton />
         </nav>
       </div>
     </div>
@@ -81,7 +83,10 @@ function GlobalNavItem({
   item,
   close,
 }: {
-  item: Item;
+  item: {
+    name: string;
+    slug: string;
+  };
   close: () => false | void;
 }) {
   const segment = useSelectedLayoutSegment();
