@@ -1,8 +1,11 @@
 'use client'
-// `app/page.js` is the UI for the `/` URL
 import { useState } from "react";
+import LoginComponent from "./_component/login-component"
+import { Session } from "next-auth";
 
-export default function Page() {
+export default function Page(params: {
+    session: Session
+}) {
     const [form, setForm] = useState({
         type: "regNo",
         searchKey: "",
@@ -15,6 +18,10 @@ export default function Page() {
 
     return (
         <div className="max-w-none py-32">
+            <div className="absolute w-full top-0 left-0 right-0 flex justify-between items-center p-2">
+                <div></div>
+                <LoginComponent session={params.session} />
+            </div>
             <form action="trace/search" method="GET">
                 <div className="flex flex-col items-center">
                     <h1 className="text-3xl text-primary-500 font-bold pb-6">Trace Your Medicine</h1>

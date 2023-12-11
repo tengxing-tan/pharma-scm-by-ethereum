@@ -1,4 +1,3 @@
-'use client'
 import LoginButton from "app/_ui/login-bth"
 import { Session } from "next-auth"
 import { SessionProvider } from "next-auth/react"
@@ -13,10 +12,8 @@ export default function LoginPage({ params }: {
         redirect('/product-catalogue')
     }
     return (
-        <div>
-            <SessionProvider session={params.session}>
-                <LoginButton />
-            </SessionProvider>
+        <div className="bg-white rounded shadow">
+            plain login page. to be added later
         </div>
     )
 }

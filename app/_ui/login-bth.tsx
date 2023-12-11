@@ -1,3 +1,4 @@
+'use client'
 import { useSession, signIn, signOut } from "next-auth/react"
 import { redirect } from "next/navigation"
 
@@ -14,10 +15,10 @@ export default function LoginButton() {
         // )
     }
     return (
-        <>
-            Not signed in <br />
-            <button onClick={() => signIn("email")}>Sign in</button>
-        </>
+        <div className="p-2">
+            <button onClick={() => signIn("email")} className="text-rose-400 font-semibold underline underline-offset-2 py-1 px-3">
+                Supplier site</button>
+        </div>
     )
 }
 
