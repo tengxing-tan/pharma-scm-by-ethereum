@@ -94,37 +94,8 @@ model Stakeholder {
   wholesaler   Wholesaler?
   importer     Importer?
   products     Drug[]
-  accounts     Account[]
-  sessions     Session[]
   createdAt    DateTime      @default(now()) @map(name: "created_at")
   updatedAt    DateTime      @updatedAt @map(name: "updated_at")
-}
-
-model Account {
-  id                String  @id @default(cuid())
-  userId            String
-  type              String
-  provider          String
-  providerAccountId String
-  refresh_token     String? @db.Text
-  access_token      String? @db.Text
-  expires_at        Int?
-  token_type        String?
-  scope             String?
-  id_token          String? @db.Text
-  session_state     String?
-
-  user Stakeholder @relation(fields: [userId], references: [id], onDelete: Cascade)
-
-  @@unique([provider, providerAccountId])
-}
-
-model Session {
-  id           String      @id @default(cuid())
-  sessionToken String      @unique
-  userId       String
-  expires      DateTime
-  user         Stakeholder @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model Admin {

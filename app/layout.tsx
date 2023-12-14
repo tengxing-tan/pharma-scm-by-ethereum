@@ -11,6 +11,7 @@ export const metadata: Metadata = {
 };
 
 export default async function RootLayout(props: { children: React.ReactNode }) {
+
     return (
         <html lang="en" className="[color-scheme:light]">
             <body className="overflow-y-scroll bg-white bg-[url('/grid.svg')]">
