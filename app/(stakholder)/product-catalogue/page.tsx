@@ -1,17 +1,21 @@
 'use server';
 
-import { getDrugs } from 'app/api/action/getDrug';
+import { getDrugsByOwner } from 'app/api/action/getDrug';
 import { SearchBar } from 'app/_ui/search-bar';
 import { Heading } from 'app/_ui/heading';
 import { Badge } from 'app/_ui/badge';
 import Link from 'next/link';
+import { options } from 'app/api/auth/[...nextauth]/options';
+import { getServerSession } from 'next-auth';
+import { redirect } from 'next/navigation';
 
-export default async function Page({
-  params: { id },
-}: {
-  params: { id: string };
-}) {
-  const items = await getDrugs();
+export default async function Page() {
+
+  const session = await getServerSession(options)
+  if (!session || !session.user?.email) {
+    redirect(`/trace`)
+  }
+  const items = await getDrugsByOwner(session.user?.email)
 
   return (
     <div className="max-w-5xl">
@@ -23,7 +27,10 @@ export default async function Page({
       </Heading>
       <SearchBar />
 
-      <div className="mt-8 flex h-full flex-col bg-white py-2">
+      <p className="pt-4 text-sm text-gray-700">
+        Showing {items.length} items.</p>
+
+      <div className="mt-4 flex h-full flex-col bg-white py-2">
         <ul role="list" className="-my-6 divide-y divide-gray-200">
           {items &&
             items.map((item) => (

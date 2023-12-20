@@ -6,7 +6,7 @@ export default function SessionComponent(props: { children: React.ReactNode }) {
 
     const { data: session, status } = useSession()
     if (!session && status === "unauthenticated") {
-        redirect('/trace')
+        redirect('/api/auth/signin')
     }
     if (status === "loading") {
         return (

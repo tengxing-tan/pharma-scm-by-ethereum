@@ -3,6 +3,7 @@
 import z from 'zod';
 import prisma from 'lib/prisma-client';
 
+// get all drugs without condition
 export async function getDrugs() {
   try {
     const data = await prisma.drug.findMany({
@@ -21,20 +22,26 @@ export async function getDrugs() {
   }
 }
 
+// get drugs that under registered by a particular user
+export async function getDrugsByOwner(email: string) {
+  const data = await prisma.drug.findMany({
+    where: {
+      owner: {
+        email: email
+      }
+    },
+  });
+  return data;
+
+}
+
+// get particular drug details
 export async function getDrugById(id: number) {
   try {
     const data = await prisma.drug.findUnique({
       where: {
         id: id
       },
-      // include: {
-      //   owner: true,
-      //   manufacturer: {
-      //     include: {
-      //       info: true
-      //     }
-      //   }
-      // }
     });
     console.log("Get drug by id ok!")
     return data;
@@ -43,6 +50,7 @@ export async function getDrugById(id: number) {
   }
 }
 
+// trace
 export async function getDrugBySearchKey(type: string, searchKey: string) {
   const validatedData = z.object({
     type: z.string(),

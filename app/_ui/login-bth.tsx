@@ -3,22 +3,25 @@ import { useSession, signIn } from "next-auth/react"
 import { redirect } from "next/navigation"
 
 export default function LoginButton() {
-    const { data: session } = useSession()
+    const { data: session, status } = useSession()
 
     if (session) {
-        // redirect('/product-catalogue')
-        // return (
-        //     <>
-        //         Signed in as {session.user?.email} <br />
-        //         <button onClick={() => signOut()}>Sign out</button>
-        //     </>
-        // )
+        redirect(`/product-catalogue/${session.user?.email}`)
     }
+
+    if (status === "loading") return (
+        <div className="absolute top-0 bottom-0 left-0 min-h-screen w-full flex justify-center items-center bg-gray-50">
+            <p className="text-2xl text-gray-500">
+                Signing you in...
+            </p>
+        </div>
+    )
+
     return (
         <div className="p-2">
-            <button onClick={() => signIn("email", { email: "root@mail.com", callbackUrl: "/product-catalogue" })} className="text-rose-400 font-semibold underline underline-offset-2 py-1 px-3">
+            <button onClick={() => signIn("email")} className="text-rose-400 font-semibold underline underline-offset-2 py-1 px-3">
                 Supplier site</button>
-        </div>
+        </div >
     )
 }
 
