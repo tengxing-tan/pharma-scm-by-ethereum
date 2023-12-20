@@ -22,12 +22,15 @@ export default async function Page({ params, searchParams }: {
 
     return (
         <div className="max-w-none p-6">
-            <Heading heading={`Update Order ${params.batchNo}`}>
-                <Link href="/order">
-                    <button type="button" className="bg-gray-50 focus:ring-gray-300 hover:underline rounded-md px-6 py-3 text-sm  text-gray-500 shadow-sm focus:ring-1 focus:ring-inset">
-                        Cancel
-                    </button></Link>
-            </Heading>
+            <div>
+                <Heading heading={`Update Order ${params.batchNo}`}>
+                    <Link href="/order">
+                        <button type="button" className="bg-gray-50 focus:ring-gray-300 hover:underline rounded-md px-6 py-3 text-sm  text-gray-500 shadow-sm focus:ring-1 focus:ring-inset">
+                            Cancel
+                        </button></Link>
+                </Heading>
+                <p><Link href={`/trace/${params.batchNo}`} >See its supply chain overview 💊</Link></p>
+            </div>
             <form action={updateBasicDetails}>
                 <div className="space-y-12 border-b border-gray-900/10 pb-12">
                     {/* form section */}
@@ -64,7 +67,7 @@ export default async function Page({ params, searchParams }: {
                         <ShipmentProcess />
                         <div className="w-fit flex space-x-4 justify-center">
                             <input className="capitalize whitespace-nowrap bg-primary-500 text-white rounded-md px-4 py-1 hover:bg-primary-600 focus:ring-2 focus:ring-offset-2 focus:ring-primary-500"
-                                type="submit" name="action" value="update shipment process" />
+                                type="submit" name="action" value="update" />
                             {searchParams.updated && searchParams.updated === 'shipmentOk' ? (
                                 <p className="p-2 text-gray-700 text-sm">👍 Update data successfully!</p>
                             ) : null}

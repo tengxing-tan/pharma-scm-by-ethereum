@@ -1,11 +1,21 @@
 'use server'
 
 import { Heading } from 'app/_ui/heading';
-import { getDrugBatches } from 'app/api/action/getDrugBatch';
+import { getDrugBatchesByOwner } from 'app/api/action/getDrugBatch';
+import { options } from 'app/api/auth/[...nextauth]/options';
+import { getServerSession } from 'next-auth';
 import Link from 'next/link';
+import { redirect } from 'next/navigation';
 
-export default async function Page({ searchParams }: { searchParams: { action?: string } }) {
-    const items = await getDrugBatches()
+export default async function Page({ searchParams }: {
+    searchParams: { action?: string }
+}) {
+
+    const session = await getServerSession(options)
+    if (!session || !session.user?.email) {
+        redirect(`/api/auth/signin`)
+    }
+    const items = await getDrugBatchesByOwner(session.user?.email)
     // console.log(items)
 
     return (

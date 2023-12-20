@@ -20,6 +20,31 @@ export async function getDrugBatches() {
     }
 }
 
+export async function getDrugBatchesByOwner(email: string) {
+    try {
+        const data = await prisma.drugBatch.findMany({
+            where: {
+                drug: {
+                    owner: { email: email }
+                },
+            },
+            orderBy: {
+                createdAt: 'desc',
+            },
+            include: {
+                drug: {
+                    include: {
+                        owner: true
+                    }
+                }
+            },
+        });
+        return data;
+    } catch (error) {
+        console.error('Error fetching drug batches:', error);
+    }
+}
+
 // order/[batchNo]/page.tsx
 export async function getDrugBatchByBatchNo(batchNo: string) {
 

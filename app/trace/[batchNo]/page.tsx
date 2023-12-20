@@ -12,11 +12,15 @@ export default async function Page({ params }: {
 
     const drugBatch = await getDrugBatchByBatchNo(params.batchNo)
     const drug = await getDrugById(Number(drugBatch?.drugId))
-    const owner = await getStakeholderById(Number(drug?.ownerId))
-    const manufacturer = await getStakeholderByManufacturerId(Number(drug?.manufacturerId))
-    const importer = await getStakeholderByImporterId(Number(drugBatch?.importerId))
-    const wholesaler = await getStakeholderByWholesalerId(Number(drugBatch?.wholesalerId))
-    const activities = await getActivitiesByBatchId(Number(drugBatch?.id))
+    if (!drugBatch || !drug) {
+        throw new Error("Drug batch not found")
+    }
+    console.log("owner id: ", drug?.ownerId)
+    const owner = await getStakeholderById(drug?.ownerId)
+    const manufacturer = await getStakeholderByManufacturerId(drug?.manufacturerId)
+    const importer = await getStakeholderByImporterId(drugBatch?.importerId)
+    const wholesaler = await getStakeholderByWholesalerId(drugBatch?.wholesalerId)
+    const activities = await getActivitiesByBatchId(drugBatch?.id)
 
     return (
         <div className="px-6 w-full max-w-3xl">

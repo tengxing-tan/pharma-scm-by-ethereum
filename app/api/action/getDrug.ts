@@ -36,6 +36,7 @@ export async function getDrugsByOwner(email: string) {
 }
 
 // get particular drug details
+// trace batchno / search
 export async function getDrugById(id: number) {
   try {
     const data = await prisma.drug.findUnique({

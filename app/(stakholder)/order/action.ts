@@ -1,32 +1,21 @@
 'use server';
 
 import prisma from 'lib/prisma-client'
-import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
 import { z } from 'zod';
 
 export async function createDrugBatch(formData: FormData) {
 
-    const regNoSchema = z.string().min(5);
-
-    try {
-        createBatchSchema.parse({
-            batchNo: formData.get('batchNo'),
-            quantity: Number(formData.get('quantity')),
-            manufactureDate: formData.get('manufactureDate'),
-            expiryDate: formData.get('expiryDate'),
-        });
-        regNoSchema.parse(formData.get('registrationNo'))
-    } catch (error) {
-        console.log('Error: ', error);
-    }
-    const validData = createBatchSchema.parse({
+    const validated = createBatchSchema.parse({
         batchNo: formData.get('batchNo'),
         quantity: Number(formData.get('quantity')),
         manufactureDate: formData.get('manufactureDate'),
         expiryDate: formData.get('expiryDate'),
     });
+    const regNoSchema = z.string().min(5);
+    regNoSchema.parse(formData.get('registrationNo'))
 
+    // valid drug registration no
     const drug = await prisma.drug.findUnique({
         where: {
             registrationNo: regNoSchema.parse(formData.get('registrationNo'))
@@ -36,13 +25,14 @@ export async function createDrugBatch(formData: FormData) {
     if (drug?.id) {
         await prisma.drugBatch.create({
             data: {
-                ...validData,
-                drugId: drug?.id,
-            }
+                ...validated,
+                drugId: drug.id,
+            },
         });
     } else { console.log('searching drug by registration no. But Drug not found!') }
 
-    revalidatePath('/');
+    console.log("Drug Batch created ok!")
+    redirect(`?created=ok`);
 }
 // order/batchNo: get basic details
 export async function getDrugBatch(id: number) {
@@ -163,7 +153,7 @@ export async function deleteDrugBatch(formData: FormData) {
 
 const createBatchSchema = z.object({
     batchNo: z.string().min(1),
-    quantity: z.number().min(1),
+    quantity: z.number().min(0),
     manufactureDate: z.string().min(1),
     expiryDate: z.string().min(1),
 });
