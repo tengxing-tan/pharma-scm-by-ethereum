@@ -37,11 +37,21 @@ export default function ProductDescription({ props }: {
                     <div className="mt-1 text-sm text-gray-700">
                         <p className="mt-1 text-xs text-gray-700">
                             <span className="text-gray-500">Holder: </span>
-                            <span className="text-sm capitalize"> {props.owner ? props.owner.name.toLowerCase() : "-"}</span>
+                            <span className="text-sm capitalize"> {props.owner ? `${props.owner.name.toLowerCase()} (${props.owner.country})` : "-"}</span>
                         </p>
                         <p className="mt-1 text-xs text-gray-700">
+                            <span className="text-gray-500">Holder Address: </span>
+                            <span className="text-sm capitalize"> {props.owner?.address ? `${props.owner.address}, ${props.owner.postcode}, ${props.owner.state}` : "Not provided"}</span>
+                        </p>
+                        <p className="mt-1 text-xs text-gray-700">
+                            <span className="text-gray-500">Registered on: </span>
+                            <span className="text-sm capitalize"> {props.drug ? props.drug.createdAt.toUTCString().slice(4, 16) : "-"}</span>
+                        </p>
+                    </div>
+                    <div className="mt-1 text-sm text-gray-700">
+                        <p className="mt-1 text-xs text-gray-700">
                             <span className="text-gray-500">Manufacturer: </span>
-                            <span className="text-sm capitalize"> {props.manufacturer ? props.manufacturer.name.toLowerCase() : "-"}</span>
+                            <span className="text-sm capitalize"> {props.manufacturer ? `${props.manufacturer.name.toLowerCase()} (${props.manufacturer.country})` : "-"}</span>
                         </p>
                     </div>
                 </div>

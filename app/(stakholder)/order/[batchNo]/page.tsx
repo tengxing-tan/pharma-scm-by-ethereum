@@ -29,7 +29,8 @@ export default async function Page({ params, searchParams }: {
                             Cancel
                         </button></Link>
                 </Heading>
-                <p><Link href={`/trace/${params.batchNo}`} >See its supply chain overview 💊</Link></p>
+                <p className="text-primary-500 font-bold text-sm">
+                    <Link href={`/trace/${params.batchNo}`} >See its supply chain overview 💊</Link></p>
             </div>
             <form action={updateBasicDetails}>
                 <div className="space-y-12 border-b border-gray-900/10 pb-12">

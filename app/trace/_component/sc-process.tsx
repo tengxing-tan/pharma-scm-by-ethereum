@@ -10,7 +10,11 @@ export default function ScProcess({ props }: {
 }) {
 
     if (typeof props.stakeholder === "undefined" || !props.stakeholder) {
-        return <div>loading...</div>
+        return (
+            <div className="w-full flex flex-col items-center justify-center bg-gray-500/5 p-6">
+                <p className="text-gray-600">No process yet</p>
+            </div>
+        )
     }
 
     return (

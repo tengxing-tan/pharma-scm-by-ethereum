@@ -15,23 +15,40 @@ export default async function Page({ params }: {
     if (!drugBatch || !drug) {
         throw new Error("Drug batch not found")
     }
-    console.log("owner id: ", drug?.ownerId)
-    const owner = await getStakeholderById(drug?.ownerId)
-    const manufacturer = await getStakeholderByManufacturerId(drug?.manufacturerId)
-    const importer = await getStakeholderByImporterId(drugBatch?.importerId)
-    const wholesaler = await getStakeholderByWholesalerId(drugBatch?.wholesalerId)
-    const activities = await getActivitiesByBatchId(drugBatch?.id)
+
+    let owner, manufacturer, importer, wholesaler
+    if (drug.ownerId) {
+        owner = await getStakeholderById(drug.ownerId)
+    }
+    if (drug.manufacturerId) {
+        manufacturer = await getStakeholderByManufacturerId(drug.manufacturerId)
+    }
+    // if (drugBatch.importerId) {
+    //     importer = await getStakeholderByImporterId(drugBatch.importerId)
+    // }
+    // if (drugBatch.wholesalerId) {
+    //     wholesaler = await getStakeholderByWholesalerId(drugBatch.wholesalerId)
+    // }
+    importer = (drugBatch.importerId)
+        ? await getStakeholderByImporterId(drugBatch.importerId)
+        : null
+    importer = (drugBatch.wholesalerId)
+        ? await getStakeholderByImporterId(drugBatch.wholesalerId)
+        : null
+    const activities = await getActivitiesByBatchId(drugBatch.id)
 
     return (
         <div className="px-6 w-full max-w-3xl">
             <Heading heading="Product Detail" />
-            <div className="p-4 bg-gray-50 border-l-2 rounded-sm border-primary-500">
-                <ProductDescription props={{
-                    drug: drug,
-                    owner: owner,
-                    manufacturer: manufacturer,
-                }} />
-            </div>
+            {owner ? (
+                <div className="p-4 bg-gray-50 border-l-2 rounded-sm border-primary-500">
+                    <ProductDescription props={{
+                        drug: drug,
+                        owner: owner,
+                        manufacturer: manufacturer,
+                    }} />
+                </div>
+            ) : null}
 
             <div className="pt-6">
                 <h2 className="py-4 text-3xl text-gray-800">Supply Chain Overview</h2>

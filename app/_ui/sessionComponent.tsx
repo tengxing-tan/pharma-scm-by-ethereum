@@ -12,7 +12,7 @@ export default function SessionComponent(props: { children: React.ReactNode }) {
         return (
             <div className="min-h-screen flex justify-center items-center">
                 <p className="text-gray-500 text-2xl">
-                    Verifying Your Autenticity...
+                    Verifying Your Authenticity...
                 </p>
             </div>
         )
